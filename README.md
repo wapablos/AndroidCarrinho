@@ -14,8 +14,8 @@
 **Tarefas**
 * Detecção de Placas
 * Semáforo ( Posição aleatória )
-* Processamento de Imagem [ Celular -> Wifi -> PC -> Wifi -> Celular -> Ponte H ]
-* Sistema de entregas (simples -> vai no lugar -> alguem pega entrega)
+* Processamento de Imagem [ Celular -> USB -> IOIO -> Ponte H ]
+* Sistema de entregas (requisita lugar -> vai no lugar -> alguem pega a entrega)
 
 **Divisão de Tarefas**
 
