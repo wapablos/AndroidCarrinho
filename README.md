@@ -1,21 +1,35 @@
 # AndroidCarrinho
 
+
+**Hardware**
 * Sensor Ultrasônico
+* Sensor Infravermelho
+* MP3 + Auto-Falante
 * Servos
 * Ponte H
 * Placa IOIO
+* Placa Julieta
+* Motores
 * Câmera
-* Aplicação Android
 * Mapas
 * Tapetes (Gustavo) , E.V.A
+* Recipiente (Caçambinha)
+* Suporte Câmera
+
+**Software**
+* Aplicação Android
 * C++, Java, OpenCV
 
-
 **Tarefas**
-* Detecção de Placas
-* Semáforo ( Posição aleatória )
-* Processamento de Imagem [ Celular -> USB -> IOIO -> Ponte H ]
+* Detecção de Placas e Objetos
+* Semáforo ( 2 cores, Posição aleatória )
+* Processamento de Imagem [ Celular -> USB | Bluetooth -> IOIO -> Ponte H ]
 * Sistema de entregas (requisita lugar -> vai no lugar -> alguem pega a entrega)
+* Comunicação IOIO + Julieta
+* Sinalização Luminosa Reativa
+
+**Extra**
+* Buzina
 
 **Divisão de Tarefas**
 
