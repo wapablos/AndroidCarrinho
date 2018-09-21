@@ -1,21 +1,3 @@
-/*******************************************************************************
-* Exp2_1_DriveForward - Falcon Robot Experiment 2.1
-*
-* Drive forward and stop.
-*
-* Hardware setup:
-* The motors must be connected, and the board must be receiving power from the
-* battery. The motor switch must also be switched to ON.
-*
-* This sketch was written by RoboCore, with lots of help from the Arduino
-* community(especially from Sparkfun). This code is completely free for any use.
-*
-* Visit https://www.robocore.net/tutoriais/kit-iniciante-robotica-introducao
-* for Falcon Robot Kit Information
-*
-* 20 Jul 2017 MarceloFariaz
-*******************************************************************************/
-
 #include <FalconRobot.h> // This line "includes" the Falcon Robot library
 
 FalconRobotMotors motors(5, 7, 6, 8); // Instantiate the motor control object.
@@ -24,6 +6,7 @@ FalconRobotDistanceSensor distanceSensor (2,3); // initialzes Distance Sensor ob
 // not. If the sensor value is greater than this, the robot needs to deviate.
 #define DISTANCETHRESHOLD 10 // cm - Set to any number from 2 - 400.
 char buff = " ";
+int distance;
 
 void setup() {
   Serial.begin(115200);
@@ -31,7 +14,8 @@ void setup() {
   //delay(500);
   //motors.stop();
 }
-
+//Considere FORWARD = BACKWARD E BACKWARD = FORWARD, ou seja, esse código está com o sentido
+//de rotacao inverso
 void loop() {
   buff = Serial.read();
   distance = distanceSensor.read();
@@ -40,8 +24,7 @@ void loop() {
     case 'f':
       while(Serial.read() != 's')
         if (distance <= DISTANCETHRESHOLD){
-          motors.stop();
-          delay(500);
+          dontTouchMe();
         }
         else{
         motors.drive(50, FORWARD);
@@ -59,11 +42,26 @@ void loop() {
     break;
     case 'r':
       while(Serial.read() != 's')
-      motors.leftDrive(50, BACKWARD);
+      motors.leftDrive(50, BACKWARD); 
       motors.rightDrive(50, FORWARD);
     break;
     default:
-    motors.stop();
+      if (distance <= DISTANCETHRESHOLD) {
+      dontTouchMe();
+      }
+      else{
+      motors.stop();
+      }
     break;
   }
   }
+
+//funcao para o  carro dar ré.
+  void dontTouchMe(){
+    motors.stop();
+    delay(500);
+    motors.drive(35,FORWARD);
+    delay(500);
+    motors.stop();
+    delay(500);
+    }
