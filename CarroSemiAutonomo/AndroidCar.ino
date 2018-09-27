@@ -1,5 +1,7 @@
 #include <FalconRobot.h> 
+//#include <SoftwareSerial.h>
 
+//SoftwareSerial NewUART(10, 11);
 FalconRobotMotors motors(5, 7, 6, 8); 
 FalconRobotDistanceSensor distanceSensor (2,3); 
 
@@ -9,6 +11,7 @@ char buff = " ";
 
 void setup() {
   Serial.begin(115200);
+  //NewUART.begin(9600);
 }
 
 void loop(){
