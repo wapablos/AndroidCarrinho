@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageButton
+        android:id="@+id/bnt_up"
+        android:layout_width="258dp"
+        android:layout_height="174dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/white"
+        android:padding="20dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/bnt_up"
+        tools:layout_editor_absoluteX="63dp"
+        tools:layout_editor_absoluteY="37dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/bnt_left"
+        android:layout_width="155dp"
+        android:layout_height="130dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/white"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/bnt_left"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="218dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/bnt_right"
+        android:layout_width="155dp"
+        android:layout_height="130dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/white"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/bnt_right"
+        tools:layout_editor_absoluteX="213dp"
+        tools:layout_editor_absoluteY="218dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/bnt_down"
+        android:layout_width="155dp"
+        android:layout_height="130dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/white"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/bnt_down"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="360dp"
+        tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>
