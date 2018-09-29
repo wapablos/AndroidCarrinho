@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('IOIOLibAndroidBluetooth-5.07.aar'))
