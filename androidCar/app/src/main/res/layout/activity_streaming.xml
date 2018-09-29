@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="171dp"
+        android:layout_height="129dp"
+        android:text="HELLO"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="133dp" />
 </android.support.constraint.ConstraintLayout>
