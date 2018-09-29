@@ -2,6 +2,7 @@ package project.phi.androidcar.joystick;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -19,10 +20,20 @@ import project.phi.androidcar.R;
 
 public class joystickActivity extends IOIOActivity{
 
+    public ImageButton bnt_up;
+    public ImageButton bnt_down;
+    public ImageButton bnt_left;
+    public ImageButton bnt_right;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joystick);
+
+        bnt_up = (ImageButton) findViewById(R.id.bnt_up);
+        bnt_down = (ImageButton) findViewById(R.id.bnt_down);
+        bnt_left = (ImageButton) findViewById(R.id.bnt_left);
+        bnt_right = (ImageButton) findViewById(R.id.bnt_right);
     }
 
     class Looper extends BaseIOIOLooper {

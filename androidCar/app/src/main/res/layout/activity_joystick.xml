@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
 
     <ImageButton
         android:id="@+id/bnt_up"
@@ -17,7 +18,7 @@
         android:background="@android:color/white"
         android:padding="20dp"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/bnt_up" />
+        android:src="@drawable/bnt_up" />
 
     <ImageButton
         android:id="@+id/bnt_left"
@@ -29,7 +30,8 @@
         android:adjustViewBounds="true"
         android:background="@android:color/white"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/bnt_left" />
+        android:src="@drawable/bnt_left"
+        android:layout_alignParentLeft="true" />
 
     <ImageButton
         android:id="@+id/bnt_right"
@@ -41,7 +43,8 @@
         android:adjustViewBounds="true"
         android:background="@android:color/white"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/bnt_right" />
+        android:src="@drawable/bnt_right"
+        android:layout_alignParentRight="true" />
 
     <ImageButton
         android:id="@+id/bnt_down"
@@ -54,7 +57,7 @@
         android:adjustViewBounds="true"
         android:background="@android:color/white"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/bnt_down" />
+        android:src="@drawable/bnt_down" />
 
     <TextView
         android:id="@+id/textView"
@@ -64,5 +67,6 @@
         android:layout_marginBottom="15dp"
         android:layout_toEndOf="@+id/bnt_down"
         android:text="IOIO Status"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_toRightOf="@+id/bnt_down" />
 </RelativeLayout>
