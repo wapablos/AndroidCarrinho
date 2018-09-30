@@ -30,5 +30,7 @@
         <activity android:name=".streaming.streamingActivity"></activity>
 
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
