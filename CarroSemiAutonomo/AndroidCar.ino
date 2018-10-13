@@ -1,7 +1,7 @@
 #include <FalconRobot.h> 
-//#include <SoftwareSerial.h>
+#include <SoftwareSerial.h>
 
-//SoftwareSerial NewUART(10, 11);
+SoftwareSerial NewUART(10, 11);
 FalconRobotMotors motors(5, 7, 6, 8); 
 FalconRobotDistanceSensor distanceSensor (2,3); 
 
@@ -10,15 +10,16 @@ FalconRobotDistanceSensor distanceSensor (2,3);
 char buff = " ";
 
 void setup() {
-  Serial.begin(115200);
-  //NewUART.begin(9600);
+  Serial.begin(9600);
+  NewUART.begin(9600);
 }
 
 void loop(){
-  buff = Serial.read();
+  buff = NewUART.read();
+  //Serial.write(buff);
   switch(buff){
-    case 'f':
-      while(Serial.read() != 's'){
+    case 'u':
+      while(NewUART.read() != 's'){
         if (distanceSensor.read() <= LimiteSup && distanceSensor.read() >= LimiteInf){
           dontTouchMe();
           delay(1000);
@@ -27,16 +28,16 @@ void loop(){
           motors.drive(35, FORWARD);
       }
     break;
-    case 'b':
-      while(Serial.read() != 's')
+    case 'd':
+      while(NewUART.read() != 's')
         motors.drive(35, BACKWARD);
     break;
     case 'l':
-      while(Serial.read() != 's')
+      while(NewUART.read() != 's')
         motors.rightDrive(35, FORWARD);
     break;
     case 'r':
-      while(Serial.read() != 's')
+      while(NewUART.read() != 's')
         motors.leftDrive(35, FORWARD);
     break;
     default:
