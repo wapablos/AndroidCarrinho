@@ -1,8 +1,11 @@
 package project.phi.androidcar.streaming;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -37,6 +40,11 @@ public class streamingActivity extends AppCompatActivity {
 
         SERVERIP = getLocalIpAddress();
         camera = getCameraInstance();
+
+        // PERMISSION CAMERA REQUEST
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},0);
+        }
 
         streamingView = new streamingView(this, camera);
         preview.addView(streamingView);

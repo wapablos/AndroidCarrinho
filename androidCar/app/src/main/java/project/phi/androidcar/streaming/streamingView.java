@@ -28,7 +28,6 @@ public class streamingView extends SurfaceView implements SurfaceHolder.Callback
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
-
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         try {
@@ -77,7 +76,7 @@ public class streamingView extends SurfaceView implements SurfaceHolder.Callback
             yuvImage.compressToJpeg(new Rect(0,0,this.width, this.height), 100, baos);
             FrameBuffer = baos;
         } catch (Exception e){
-            Log.d("Parse", "errpr");
+            Log.d("Parse", "error");
         }
     }
 }

@@ -14,14 +14,12 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 public class streamingServerThread implements Runnable {
     private int ServerPort;
     private String ServerIP;
     private Context context;
     private Handler handler;
     private streamingActivity streamingActivityInstance;
-
 
     public streamingServerThread(Context context, String serverip, int serverport, Handler handler) {
         super();
@@ -47,7 +45,6 @@ public class streamingServerThread implements Runnable {
                 Socket s = ss.accept();
                 new Thread(new ServerSocketThread(s)).start();
             }
-
         } catch (Exception e) {
             Log.d("ServerThread", "Run: ERROR");
         }
@@ -63,26 +60,25 @@ public class streamingServerThread implements Runnable {
 
         @Override
         public void run() {
-            if(s !=null){
+            if(s != null){
                 String clientIp = s.getInetAddress().toString().replace("/", "");
                 int clientPort = s.getPort();
-                System.out.println("====client ip====="+clientIp);
-                System.out.println("====client port====="+clientPort);
+                System.out.println("Client ip: "+ clientIp);
+                System.out.println("Client port: " +clientPort);
                 try {
-
                     s.setKeepAlive(true);
                     os = s.getOutputStream();
                     while(true){
                         DataOutputStream dos = new DataOutputStream(os);
-                        dos.writeInt(4);
-                        dos.writeUTF("#@@#");
+                        dos.writeInt(4);        //TOKEN INT
+                        dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
                         dos.writeInt(streamingActivityInstance.streamingView.FrameBuffer.size());
-                        dos.writeUTF("-@@-");
+                        dos.writeUTF("-@@-");  //TOKEN UTF 02 -> AFTER IMG LENGTH
                         dos.flush();
                         System.out.println(streamingActivityInstance.streamingView.FrameBuffer.size());
                         dos.write(streamingActivityInstance.streamingView.FrameBuffer.toByteArray());
                         dos.flush();
-                        Thread.sleep(1000/15);
+                        Thread.sleep(1000/15); // 15 FRAMES PER SECOND
                     }
 
                 } catch (Exception e) {
