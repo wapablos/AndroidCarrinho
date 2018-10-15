@@ -27,7 +27,7 @@ public class Udp_cliente {
             EM SEGUIDA ENVIAR O TAMANHO DO ARRAY (INT LENGTH) 
             DA IMAGEM QUE SERÁ ENVIADA
             E POR FIM ENVIA UM OUTRO TOKEN (TOCKEN UTF = '-@@-') PARA 
-            INDICAR QUE O PRÓXIMO ARRAY É O
+            INDICAR QUE O PRÓXIMO BYTE É O
             COMEÇO DO ARRAY DE IMAGEM.
             */
             int token = is.readInt(); 
