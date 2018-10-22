@@ -70,13 +70,14 @@ public class streamingServerThread implements Runnable {
                     os = s.getOutputStream();
                     while(true){
                         DataOutputStream dos = new DataOutputStream(os);
-                        dos.writeInt(4);        //TOKEN INT
-                        dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
+                        //dos.writeInt(12);        //TOKEN INT
+                        //dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
                         dos.writeInt(streamingActivityInstance.streamingView.FrameBuffer.size());
                         dos.writeUTF("-@@-");  //TOKEN UTF 02 -> AFTER IMG LENGTH
                         dos.flush();
                         System.out.println(streamingActivityInstance.streamingView.FrameBuffer.size());
                         dos.write(streamingActivityInstance.streamingView.FrameBuffer.toByteArray());
+                        dos.writeUTF("FEND");
                         dos.flush();
                         Thread.sleep(1000/15); // 15 FRAMES PER SECOND
                     }
