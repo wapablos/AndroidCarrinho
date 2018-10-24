@@ -1,58 +1,61 @@
-#include <FalconRobot.h> 
+#include <FalconRobot.h>
 #include <SoftwareSerial.h>
 
-SoftwareSerial NewUART(10, 11);
-FalconRobotMotors motors(5, 7, 6, 8); 
-FalconRobotDistanceSensor distanceSensor (2,3); 
+SoftwareSerial NewUART(10, 11); //Programando pinos digitais para atuarem como portas de comunicacao serial(10 - RX; 11 - TX)
+FalconRobotMotors motors(5, 7, 6, 8); //Portas digitais utilizadas para o comando dos motores
+FalconRobotDistanceSensor distanceSensor (2,3); //Portas digitais utilizadas para o comando do sensor Ultrassonico
 
-#define LimiteSup 18
-#define LimiteInf 8
-char buff = " ";
+#define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
+#define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
+char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
+int MotorsPower = 40; //Porcentegem minima de forca necessaria para movimentar os motores
 
-void setup() {
-  Serial.begin(9600);
-  NewUART.begin(9600);
+void setup() {  
+	NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
 void loop(){
-  buff = NewUART.read();
-  //Serial.write(buff);
+  buff = NewUART.read(); //Armazenando os dados recebidos via comunicacao serial
   switch(buff){
-    case 'u':
-      while(NewUART.read() != 's'){
-        if (distanceSensor.read() <= LimiteSup && distanceSensor.read() >= LimiteInf){
-          dontTouchMe();
-          delay(1000);
+    case 'f': //Movimentacao para frente(FOWARD)
+      while(buff != 's'){ //Condicao de parada(STOP)
+        if (!DistanciaOK()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK()
+          DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
-        }else
-          motors.drive(35, FORWARD);
+        }else 
+          motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
       }
     break;
-    case 'd':
-      while(NewUART.read() != 's')
-        motors.drive(35, BACKWARD);
+    case 'b': //Movimentacao para tras(BACKWARD)
+      while(buff != 's') //Condicao de parada(STOP)
+        motors.drive(MotorsPower, BACKWARD); //Movimentando o carrinho para tras
     break;
-    case 'l':
-      while(NewUART.read() != 's')
-        motors.rightDrive(35, FORWARD);
+    case 'l': //Movimentacao para o lado esquerdo(LEFT)
+      while(buff != 's') //Condicao de parada(STOP)
+        motors.rightDrive(MotorsPower, FORWARD); //Movimentando o carrinho para esquerda
     break;
-    case 'r':
-      while(NewUART.read() != 's')
-        motors.leftDrive(35, FORWARD);
+    case 'r': //Movimentacao para o lado direito(RIGHT)
+      while(buff != 's') //Condicao de parada(STOP)
+        motors.leftDrive(MotorsPower, FORWARD); //Movimentando o carrinho para direita
     break;
     default:
-      if (distanceSensor.read() <= LimiteSup && distanceSensor.read() >= LimiteInf)
-        dontTouchMe();
-      else
-        motors.stop();
+      motors.stop(); //Mantendo o carrinho parado
     break;
+      
   }
 }
 
-void dontTouchMe(void){
+void DontTouchMe(void){
   motors.stop();
+  delay(1000);
+  /*motors.drive(MotorsPower, BACKWARD);
   delay(500);
-  motors.drive(35, BACKWARD);
-  delay(500);
-  motors.stop();
+  motors.stop();*/
+}
+
+bool DistanciaOK(void){
+  if(distanceSensor.read() <= LimiteSup && distanceSensor.read() >= LimiteInf)
+    return false;
+  else
+    return true;
 }
