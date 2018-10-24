@@ -8,7 +8,7 @@ FalconRobotDistanceSensor distanceSensor (2,3); //Portas digitais utilizadas par
 #define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
-int MotorsPower = 40; //Porcentegem minima de forca necessaria para movimentar os motores
+int MotorsPower = 40; //Porcentagem minima de forca necessaria para movimentar os motores
 
 void setup() {  
 	NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
