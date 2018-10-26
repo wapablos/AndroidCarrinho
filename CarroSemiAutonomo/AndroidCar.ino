@@ -11,14 +11,14 @@ char buff = " "; //Buffer utilizado para armazenar o caracter de comando via ser
 int MotorsPower = 40; //Porcentagem minima de forca necessaria para movimentar os motores
 
 void setup() {  
-	NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
+  NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
 void loop(){
   buff = NewUART.read(); //Armazenando os dados recebidos via comunicacao serial
   switch(buff){
     case 'f': //Movimentacao para frente(FOWARD)
-      while(buff != 's'){ //Condicao de parada(STOP)
+      while(NewUART.read() != 's'){ //Condicao de parada(STOP)
         if (!DistanciaOK()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK()
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
@@ -27,15 +27,15 @@ void loop(){
       }
     break;
     case 'b': //Movimentacao para tras(BACKWARD)
-      while(buff != 's') //Condicao de parada(STOP)
+      while(NewUART.read() != 's') //Condicao de parada(STOP)
         motors.drive(MotorsPower, BACKWARD); //Movimentando o carrinho para tras
     break;
     case 'l': //Movimentacao para o lado esquerdo(LEFT)
-      while(buff != 's') //Condicao de parada(STOP)
+      while(NewUART.read() != 's') //Condicao de parada(STOP)
         motors.rightDrive(MotorsPower, FORWARD); //Movimentando o carrinho para esquerda
     break;
     case 'r': //Movimentacao para o lado direito(RIGHT)
-      while(buff != 's') //Condicao de parada(STOP)
+      while(NewUART.read() != 's') //Condicao de parada(STOP)
         motors.leftDrive(MotorsPower, FORWARD); //Movimentando o carrinho para direita
     break;
     default:
