@@ -31,7 +31,7 @@ restante para evitar escrita de outra imagem em cima do buffer
 no final salva a imagem e le com o opencv
 data - tem os dados completos com tamanho da imagem, inicio e fim
 data[10:] - tem somente a imagem
-data[:4] - indica somente o tamanhho da image
+data[1:5] - indica somente o tamanhho da image
 data[-4:] - tem a flag de fim
 '''
 
@@ -47,16 +47,17 @@ while True:
                 f.write(data[10:])
                 print('1',data)
                 print('1',data[10:])
-                print('1',data[:4])
+                print('1',data[1:5])
                 print('1',data[-4:])
             else:
-                rest=struct.unpack('>i', data[:4])
+                rest=struct.unpack('>i', data[1:5])
                 print(type(rest),rest[0])
-                data += s.recv(abs(buff-rest[0]))
+                if (rest[0] < buff): data += s.recv(abs(buff-rest[0]))
+                else: data += s.recv(buff + abs(buff - rest[0]))
                 f.write(data[10:])
                 print('2',data)
                 print('2', data[10:])
-                print('2', data[:4])
+                print('2', data[1:5])
                 print('2', data[-4:])
         try:
             img = cv.imread('shot.jpg')
