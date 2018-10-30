@@ -11,7 +11,7 @@ char buff = " "; //Buffer utilizado para armazenar o caracter de comando via ser
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
 void setup() {
-  Serial.begin(115200);  
+  //Serial.begin(115200);  
   NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
