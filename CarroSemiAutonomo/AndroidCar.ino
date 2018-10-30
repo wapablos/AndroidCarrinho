@@ -8,9 +8,10 @@ FalconRobotDistanceSensor distanceSensor (2,3); //Portas digitais utilizadas par
 #define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
-int MotorsPower = 40; //Porcentagem minima de forca necessaria para movimentar os motores
+int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
-void setup() {  
+void setup() {
+  Serial.begin(115200);  
   NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
@@ -22,8 +23,10 @@ void loop(){
         if (!DistanciaOK()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK()
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
-        }else 
+        }else{ 
+          //Serial.println("AKI");
           motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
+        }
       }
     break;
     case 'b': //Movimentacao para tras(BACKWARD)
@@ -54,8 +57,10 @@ void DontTouchMe(void){
 }
 
 bool DistanciaOK(void){
-  if(distanceSensor.read() <= LimiteSup && distanceSensor.read() >= LimiteInf)
+  //Serial.println(distanceSensor.read());
+  if(distanceSensor.read() <= LimiteSup && distanceSensor.read() >= LimiteInf){
+    //Serial.println("ENTROU");
     return false;
-  else
+  }else
     return true;
 }
