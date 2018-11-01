@@ -23,7 +23,7 @@ void loop(){
   switch(buff){
     case 'f': //Movimentacao para frente(FOWARD)
       while(NewUART.read() != 's'){ //Condicao de parada(STOP)
-        if (!DistanciaOK() | !InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK()
+        if (!DistanciaOK() | !InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
         }else{ 
