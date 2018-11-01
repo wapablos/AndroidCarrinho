@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +26,8 @@
             <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-        <activity android:name=".joystick.joystickActivity"></activity>
-        <activity android:name=".streaming.streamingActivity"></activity>
+        <activity android:name=".JoystickMode.JoystickActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".CameraMode.CameraActivity" android:screenOrientation="landscape"></activity>
 
     </application>
     <uses-permission android:name="android.permission.CAMERA" />

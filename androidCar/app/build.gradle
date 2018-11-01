@@ -6,8 +6,8 @@ android {
         applicationId "project.phi.androidcar"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -25,9 +25,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(':IOIOLibAndroid-5.07')
-    implementation project(':IOIOLibAndroidAccessory-5.07')
-    implementation project(':IOIOLibAndroidBluetooth-5.07')
-    implementation project(':IOIOLibAndroidDevice-5.07')
-    implementation project(':IOIOLibCore-5.07')
+    implementation 'com.github.ytai.ioio:IOIOLibAndroid:5.07'
+    implementation 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
+    implementation 'com.github.ytai.ioio:IOIOLibAndroidAccessory:5.07'
+    implementation 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
 }

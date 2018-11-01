@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import project.phi.androidcar.joystick.joystickActivity;
-import project.phi.androidcar.streaming.streamingActivity;
+import project.phi.androidcar.JoystickMode.JoystickActivity;
+import project.phi.androidcar.CameraMode.CameraActivity;
 
 /*
     TODO: Modificar o layout dessa Activity
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         bnt_cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, streamingActivity.class);
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                 startActivity(intent);
             }
         });
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         bnt_joy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, joystickActivity.class);
+                Intent intent = new Intent(MainActivity.this, JoystickActivity.class);
                 startActivity(intent);
             }
         });

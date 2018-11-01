@@ -1,4 +1,4 @@
-package project.phi.androidcar.joystick;
+package project.phi.androidcar.JoystickMode;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
@@ -21,32 +23,34 @@ import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.android.IOIOActivity;
 import project.phi.androidcar.R;
 
-public class joystickActivity extends IOIOActivity{
+public class JoystickActivity extends IOIOActivity{
 
-    private static final String TAG = joystickActivity.class.getSimpleName();
+    private static final String TAG = JoystickActivity.class.getSimpleName();
 
-    TextView IOIOstatus;
-
-    public ImageButton bnt_up;
-    public ImageButton bnt_down;
-    public ImageButton bnt_left;
-    public ImageButton bnt_right;
+    public TextView IOIOstatus;
+    public TextView front_log, bottom_log, left_log, right_log;
+    public ImageButton bnt_up, bnt_down, bnt_left, bnt_right;
 
     public Uart uart;
     public OutputStream uart_out;
     public InputStream uart_in;
+
+    public long init_f,now_f,time_f;
+    public long init_b,now_b,time_b;
+    public long init_r,now_r,time_r;
+    public long init_l,now_l,time_l;
 
     // SERIAL VARIABLES
     int RX_PIN = 12;
     int TX_PIN = 14;
     int BAUND = 9600;
 
-    char UP = 'u';
-    char DOWN = 'd';
+    //COMMANDS
+    char UP = 'f';
+    char DOWN = 'b';
     char RIGHT = 'r';
     char LEFT = 'l';
     char STOP = 's';
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,10 @@ public class joystickActivity extends IOIOActivity{
         setContentView(R.layout.activity_joystick);
 
         IOIOstatus = (TextView) findViewById(R.id.ioio_status);
+        front_log = (TextView) findViewById(R.id.front_log);
+        bottom_log = (TextView) findViewById(R.id.bottom_log);
+        left_log = (TextView) findViewById(R.id.left_log);
+        right_log = (TextView) findViewById(R.id.right_log);
 
         bnt_up = (ImageButton) findViewById(R.id.bnt_up);
         bnt_down = (ImageButton) findViewById(R.id.bnt_down);
@@ -91,9 +99,13 @@ public class joystickActivity extends IOIOActivity{
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == event.ACTION_DOWN){
                         SerialWrite(UP);
+                        init_f = System.currentTimeMillis();
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        now_f = System.currentTimeMillis();
+                        time_f = now_f - init_f;
+                        front_log.setText("Front: " + time_f + " ms");
                     }
                     return true;
                 }
@@ -104,9 +116,13 @@ public class joystickActivity extends IOIOActivity{
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == event.ACTION_DOWN){
                         SerialWrite(DOWN);
+                        init_b = System.currentTimeMillis();
+
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        time_b = now_b - init_b;
+                        front_log.setText("Down: " + time_b + " ms");
                     }
                     return true;
                 }
@@ -117,9 +133,12 @@ public class joystickActivity extends IOIOActivity{
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == event.ACTION_DOWN){
                         SerialWrite(RIGHT);
+                        init_r = System.currentTimeMillis();
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        time_r = now_r - init_r;
+                        front_log.setText("Right: " + time_r + " ms");
                     }
                     return true;
                 }
@@ -130,9 +149,13 @@ public class joystickActivity extends IOIOActivity{
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == event.ACTION_DOWN){
                         SerialWrite(LEFT);
+                        init_l = System.currentTimeMillis();
+
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        time_l = now_l - init_l;
+                        front_log.setText("Left: " + time_l + " ms");
                     }
                     return true;
                 }

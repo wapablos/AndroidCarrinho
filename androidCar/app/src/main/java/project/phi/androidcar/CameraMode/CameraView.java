@@ -1,4 +1,4 @@
-package project.phi.androidcar.streaming;
+package project.phi.androidcar.CameraMode;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
@@ -11,7 +11,7 @@ import android.view.SurfaceView;
 
 import java.io.ByteArrayOutputStream;
 
-public class streamingView extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
+public class CameraView extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
 
     private Camera camera;
     private SurfaceHolder holder;
@@ -20,7 +20,7 @@ public class streamingView extends SurfaceView implements SurfaceHolder.Callback
     public ByteArrayOutputStream FrameBuffer;
     private Context con;
 
-    public streamingView(Context context, Camera camera) {
+    public CameraView(Context context, Camera camera) {
         super(context);
         this.camera = camera;
         holder = getHolder();

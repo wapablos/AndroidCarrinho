@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="project.phi.androidcar.streaming.streamingActivity">
+    tools:context="project.phi.androidcar.CameraMode.CameraActivity">
 
     <FrameLayout
         android:id="@+id/camera_preview"

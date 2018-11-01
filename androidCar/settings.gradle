@@ -1,1 +1,1 @@
-include ':app', ':IOIOLibAndroid-5.07', ':IOIOLibAndroidAccessory-5.07', ':IOIOLibAndroidBluetooth-5.07', ':IOIOLibAndroidDevice-5.07', ':IOIOLibCore-5.07'
+include ':app'

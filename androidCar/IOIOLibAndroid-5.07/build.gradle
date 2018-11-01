@@ -1,4 +1,2 @@
 configurations.maybeCreate("default")
 artifacts.add("default", file('IOIOLibAndroid-5.07.aar'))
-dependencies {
-}

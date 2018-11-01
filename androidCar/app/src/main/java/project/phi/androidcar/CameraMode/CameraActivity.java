@@ -1,4 +1,4 @@
-package project.phi.androidcar.streaming;
+package project.phi.androidcar.CameraMode;
 
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -16,11 +16,15 @@ import java.util.Enumeration;
 
 import project.phi.androidcar.R;
 
-public class streamingActivity extends AppCompatActivity {
+/*
+    TODO: Colocar um textview no activity_streaming ao lado do ip, para mostrar as mensagens recebidas via socket.
+ */
+
+public class CameraActivity extends AppCompatActivity {
 
     private Camera camera;
     public FrameLayout frameLayout;
-    public streamingView streamingView;
+    public CameraView CameraView;
     public TextView serverStatus;
 
     public static String SERVERIP = "localhost";
@@ -38,10 +42,13 @@ public class streamingActivity extends AppCompatActivity {
         SERVERIP = getLocalIpAddress();
         camera = getCameraInstance();
 
-        streamingView = new streamingView(this, camera);
-        preview.addView(streamingView);
-        Thread cThread = new Thread(new streamingServerThread(this, SERVERIP, SERVERPORT, handler));
-        cThread.start();
+        CameraView = new CameraView(this, camera);
+        preview.addView(CameraView);
+
+        Thread sThread = new Thread(new CameraServerThread(this, SERVERIP, SERVERPORT, handler));
+        sThread.start();
+
+        //Thread cThread = new Thread(new CameraCommands());
     }
 
     private String getLocalIpAddress () {

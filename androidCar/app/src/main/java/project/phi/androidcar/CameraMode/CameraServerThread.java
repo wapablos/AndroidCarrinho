@@ -1,43 +1,42 @@
-package project.phi.androidcar.streaming;
+package project.phi.androidcar.CameraMode;
 
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class streamingServerThread implements Runnable {
+public class CameraServerThread implements Runnable {
     private int ServerPort;
     private String ServerIP;
     private Context context;
     private Handler handler;
-    private streamingActivity streamingActivityInstance;
+    private CameraActivity cameraActivityInstance;
 
-    public streamingServerThread(Context context, String serverip, int serverport, Handler handler) {
+    public CameraServerThread(Context context, String serverip, int serverport, Handler handler) {
         super();
         this.context = context;
         this.handler = handler;
         this.ServerIP = serverip;
         this.ServerPort = serverport;
-        this.streamingActivityInstance = (streamingActivity) this.context;
+        this.cameraActivityInstance = (CameraActivity) this.context;
     }
 
     @Override
     public void run() {
         try {
+            InputStream inStream = null;
+            inStream = mSocket.getInputStream();
             ServerSocket ss = new ServerSocket(ServerPort);
             handler.post(new Runnable(){
                 @Override
                 public void run() {
-                    streamingActivityInstance.serverStatus.setText("Listening on IP:" + ServerIP);
+                    cameraActivityInstance.serverStatus.setText("Listening on IP:" + ServerIP);
                 }
             });
 
@@ -70,13 +69,14 @@ public class streamingServerThread implements Runnable {
                     os = s.getOutputStream();
                     while(true){
                         DataOutputStream dos = new DataOutputStream(os);
-                        dos.writeInt(4);        //TOKEN INT
-                        dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
-                        dos.writeInt(streamingActivityInstance.streamingView.FrameBuffer.size());
+                        //dos.writeInt(4);        //TOKEN INT
+                        //dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
+                        dos.writeInt(cameraActivityInstance.CameraView.FrameBuffer.size());
                         dos.writeUTF("-@@-");  //TOKEN UTF 02 -> AFTER IMG LENGTH
                         dos.flush();
-                        System.out.println(streamingActivityInstance.streamingView.FrameBuffer.size());
-                        dos.write(streamingActivityInstance.streamingView.FrameBuffer.toByteArray());
+                        System.out.println(cameraActivityInstance.CameraView.FrameBuffer.size());
+                        dos.write(cameraActivityInstance.CameraView.FrameBuffer.toByteArray());
+                        dos.writeUTF("FEND");
                         dos.flush();
                         Thread.sleep(1000/15); // 15 FRAMES PER SECOND
                     }

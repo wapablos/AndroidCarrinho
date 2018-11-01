@@ -18,7 +18,7 @@ public class Udp_cliente {
     public static void main(String[] args) {
         
         try {
-            Socket cliente = new Socket("192.168.0.20",9191); // (SERVER, PORTA)
+            Socket cliente = new Socket("200.239.73.93",9191); // (SERVER, PORTA)
             DataInputStream is = new DataInputStream(cliente.getInputStream());
             /*
             TOKENS PARA CONTROLE DAS IMAGENS ENVIADAS

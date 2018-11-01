@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">androidCar</string>
+
+    <string name="ioio_disc">IOIO Desconectado!</string>
+    <string name="ioio_con">IOIO Conectado!</string>
+
+
 </resources>
