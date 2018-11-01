@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blueDark"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
@@ -17,7 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="175dp"
-        android:background="@color/blueLight"
+        android:background="@color/colorPrimaryDark"
         android:text="CAMERA"
         android:textColor="@android:color/white" />
 
@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="118dp"
-        android:background="@color/blueLight"
+        android:background="@color/colorPrimaryDark"
         android:text="JOYSTICK"
         android:textColor="@android:color/white" />
 

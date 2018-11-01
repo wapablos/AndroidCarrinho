@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white" >
+    android:background="@color/colorPrimary">
 
     <ImageButton
         android:id="@+id/bnt_up"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="127dp"
-        android:layout_marginRight="127dp"
-        android:layout_marginBottom="242dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:src="@drawable/up_arrow" />
@@ -26,12 +21,15 @@
         android:id="@+id/bnt_left"
         android:layout_width="130dp"
         android:layout_height="130dp"
+
+        android:layout_alignTop="@+id/bnt_up"
+        android:layout_alignBottom="@+id/bnt_down"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="9dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginBottom="306dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="102dp"
+        android:layout_marginBottom="96dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
@@ -42,15 +40,16 @@
         android:id="@+id/bnt_right"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_alignTop="@+id/bnt_left"
+        android:layout_alignTop="@+id/bnt_up"
+        android:layout_alignBottom="@+id/bnt_down"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="106dp"
-        android:layout_marginLeft="106dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginBottom="137dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="109dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="108dp"
         android:layout_toEndOf="@+id/bnt_left"
         android:layout_toRightOf="@+id/bnt_left"
         android:layout_weight="1"
@@ -63,12 +62,10 @@
         android:id="@+id/bnt_down"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="131dp"
-        android:layout_marginLeft="131dp"
-        android:layout_marginBottom="191dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="222dp"
+        android:layout_marginBottom="72dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
@@ -89,6 +86,7 @@
         android:layout_marginBottom="8dp"
         android:text="IOIO Status"
         android:textSize="18sp"
+        android:textColor="@android:color/white"
         tools:text="@string/ioio_disc" />
 
     <LinearLayout
@@ -100,45 +98,50 @@
         android:layout_marginBottom="0dp"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:id="@+id/editText4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Logs:" />
+            android:layout_marginLeft="15dp"
+            android:text="Logs:"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/front_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:textSize="16dp"
-            android:text="Front: 0 ms" />
+            android:textColor="@android:color/white"
+            android:text="Front: 0 ms"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/bottom_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:textSize="16dp"
-            android:text="Bottom: 0 ms" />
+            android:textColor="@android:color/white"
+            android:text="Bottom: 0 ms"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/left_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:textSize="16dp"
-            android:text="Left: 0 ms" />
+            android:textColor="@android:color/white"
+            android:text="Left: 0 ms"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/right_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:textSize="16dp"
-            android:text="Right: 0 ms" />
+            android:textColor="@android:color/white"
+            android:text="Right: 0 ms"
+            android:textSize="16dp" />
     </LinearLayout>
 
 </RelativeLayout>
