@@ -30,8 +30,8 @@ public class CameraServerThread implements Runnable {
     @Override
     public void run() {
         try {
-            InputStream inStream = null;
-            inStream = mSocket.getInputStream();
+            //InputStream inStream = null;
+            //inStream = mSocket.getInputStream();
             ServerSocket ss = new ServerSocket(ServerPort);
             handler.post(new Runnable(){
                 @Override
@@ -69,7 +69,6 @@ public class CameraServerThread implements Runnable {
                     os = s.getOutputStream();
                     while(true){
                         DataOutputStream dos = new DataOutputStream(os);
-<<<<<<< HEAD:androidCar/app/src/main/java/project/phi/androidcar/CameraMode/CameraServerThread.java
                         //dos.writeInt(4);        //TOKEN INT
                         //dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
                         dos.writeInt(cameraActivityInstance.CameraView.FrameBuffer.size());
@@ -77,15 +76,6 @@ public class CameraServerThread implements Runnable {
                         dos.flush();
                         System.out.println(cameraActivityInstance.CameraView.FrameBuffer.size());
                         dos.write(cameraActivityInstance.CameraView.FrameBuffer.toByteArray());
-=======
-                        //dos.writeInt(12);        //TOKEN INT
-                        //dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
-                        dos.writeInt(streamingActivityInstance.streamingView.FrameBuffer.size());
-                        dos.writeUTF("-@@-");  //TOKEN UTF 02 -> AFTER IMG LENGTH
-                        dos.flush();
-                        System.out.println(streamingActivityInstance.streamingView.FrameBuffer.size());
-                        dos.write(streamingActivityInstance.streamingView.FrameBuffer.toByteArray());
->>>>>>> 4e5636cc8070f9b5f076f623968399e45fe29c2f:androidCar/app/src/main/java/project/phi/androidcar/streaming/streamingServerThread.java
                         dos.writeUTF("FEND");
                         dos.flush();
                         Thread.sleep(1000/15); // 15 FRAMES PER SECOND
