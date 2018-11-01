@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +31,6 @@ public class CameraServerThread implements Runnable {
     @Override
     public void run() {
         try {
-            //InputStream inStream = null;
-            //inStream = mSocket.getInputStream();
             ServerSocket ss = new ServerSocket(ServerPort);
             handler.post(new Runnable(){
                 @Override
@@ -52,6 +51,7 @@ public class CameraServerThread implements Runnable {
     public class ServerSocketThread implements Runnable {
         Socket s = null;
         OutputStream os = null;
+        InputStream is = null;
 
         public ServerSocketThread(Socket s) throws IOException {
             this.s = s;
@@ -67,10 +67,13 @@ public class CameraServerThread implements Runnable {
                 try {
                     s.setKeepAlive(true);
                     os = s.getOutputStream();
+                    is = s.getInputStream();
                     while(true){
+                        DataInputStream dis = new DataInputStream(is);
+                        cameraActivityInstance.socketin.setText(dis.readUTF());
                         DataOutputStream dos = new DataOutputStream(os);
-                        //dos.writeInt(4);        //TOKEN INT
-                        //dos.writeUTF("#@@#");  //TOKEN UTF 01 -> BEFORE IMG LENGTH
+                        //dos.writeInt(4);
+                        //dos.writeUTF("#@@#");
                         dos.writeInt(cameraActivityInstance.CameraView.FrameBuffer.size());
                         dos.writeUTF("-@@-");  //TOKEN UTF 02 -> AFTER IMG LENGTH
                         dos.flush();

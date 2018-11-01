@@ -26,6 +26,8 @@ public class CameraActivity extends AppCompatActivity {
     public FrameLayout frameLayout;
     public CameraView CameraView;
     public TextView serverStatus;
+    public TextView socketin;
+
 
     public static String SERVERIP = "localhost";
     public static final int SERVERPORT = 9191;
@@ -38,6 +40,7 @@ public class CameraActivity extends AppCompatActivity {
 
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         serverStatus = (TextView) findViewById(R.id.textView);
+        socketin = (TextView) findViewById(R.id.textView);
 
         SERVERIP = getLocalIpAddress();
         camera = getCameraInstance();
