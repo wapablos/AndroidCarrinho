@@ -4,13 +4,12 @@
 SoftwareSerial NewUART(10, 11); //Programando pinos digitais para atuarem como portas de comunicacao serial(10 - RX; 11 - TX)
 FalconRobotMotors motors(5, 7, 6, 8); //Portas digitais utilizadas para o comando dos motores
 FalconRobotDistanceSensor distanceSensor (2,3); //Portas digitais utilizadas para o comando do sensor Ultrassonico
-// initialize a sensor object on A2 and A3
-FalconRobotLineSensor left(A2);
-FalconRobotLineSensor right(A3);
+FalconRobotLineSensor left(A2); //Porta analogica utilizada para o sensor infravermelho da esquerda
+FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infravermelho da direita
 
 #define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
-#define WhiteLine 700
+#define WhiteLine 700 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
@@ -78,16 +77,15 @@ bool DistanciaOK(void){
 }
 
 bool InsideMap(void){
-  int leftValue = 0;  // variable to store the left sensor value
-  int rightValue = 0;  // variable to store the right sensor value
-  // Leitura dos dois sensores
+  int leftValue = 0;
+  int rightValue = 0; 
   leftValue = left.read();
   rightValue = right.read();
   Serial.print("Valor InfravermelhoD: ");
   Serial.println(rightValue);
   Serial.print("Valor InfravermelhoL: ");
   Serial.println(leftValue);
-  if((leftValue < WhiteLine) | (rightValue < WhiteLine)){
+  if((leftValue > WhiteLine) | (rightValue > WhiteLine)){ //Modificar depois para analisar fita branca. Por enquanto, analisa-se uma fita preta
     Serial.println("PARE!");
     return false;
   }else{
