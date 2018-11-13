@@ -124,8 +124,9 @@ public class JoystickActivity extends IOIOActivity{
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        now_b = System.currentTimeMillis();
                         time_b = now_b - init_b;
-                        front_log.setText("Down: " + time_b + " ms");
+                        bottom_log.setText("Down: " + time_b + " ms");
                     }
                     return true;
                 }
@@ -140,8 +141,9 @@ public class JoystickActivity extends IOIOActivity{
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        now_r = System.currentTimeMillis();
                         time_r = now_r - init_r;
-                        front_log.setText("Right: " + time_r + " ms");
+                        right_log.setText("Right: " + time_r + " ms");
                     }
                     return true;
                 }
@@ -157,8 +159,9 @@ public class JoystickActivity extends IOIOActivity{
                     }
                     if (event.getAction() == event.ACTION_UP){
                         SerialWrite(STOP);
+                        now_l = System.currentTimeMillis();
                         time_l = now_l - init_l;
-                        front_log.setText("Left: " + time_l + " ms");
+                        left_log.setText("Left: " + time_l + " ms");
                     }
                     return true;
                 }
