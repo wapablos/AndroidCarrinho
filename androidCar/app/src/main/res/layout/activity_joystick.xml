@@ -15,7 +15,7 @@
         android:layout_marginTop="5dp"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@drawable/up_arrow" />
+        android:src="@drawable/bnt_up" />
 
     <ImageButton
         android:id="@+id/bnt_left"
@@ -34,7 +34,7 @@
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@drawable/left_arrow" />
+        android:src="@drawable/bnt_left" />
 
     <ImageButton
         android:id="@+id/bnt_right"
@@ -50,13 +50,11 @@
         android:layout_marginEnd="21dp"
         android:layout_marginRight="21dp"
         android:layout_marginBottom="108dp"
-        android:layout_toEndOf="@+id/bnt_left"
-        android:layout_toRightOf="@+id/bnt_left"
-        android:layout_weight="1"
+                android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@drawable/right_arrow" />
+        android:src="@drawable/bnt_right" />
 
     <ImageButton
         android:id="@+id/bnt_down"
@@ -64,13 +62,13 @@
         android:layout_height="130dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="222dp"
+        android:layout_marginTop="258dp"
         android:layout_marginBottom="72dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@drawable/down_arrow" />
+        android:src="@drawable/bnt_down" />
 
     <TextView
         android:id="@+id/ioio_status"
