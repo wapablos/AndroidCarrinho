@@ -70,7 +70,6 @@ public class CameraServerThread implements Runnable {
                     is = s.getInputStream();
                     while(true){
                         DataInputStream dis = new DataInputStream(is);
-                        cameraActivityInstance.socketin.setText(dis.readUTF());
                         DataOutputStream dos = new DataOutputStream(os);
                         //dos.writeInt(4);
                         //dos.writeUTF("#@@#");
@@ -81,6 +80,7 @@ public class CameraServerThread implements Runnable {
                         dos.write(cameraActivityInstance.CameraView.FrameBuffer.toByteArray());
                         dos.writeUTF("FEND");
                         dos.flush();
+                        cameraActivityInstance.socketin.setText(dis.readUTF());
                         Thread.sleep(1000/15); // 15 FRAMES PER SECOND
                     }
 

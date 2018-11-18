@@ -29,9 +29,9 @@ public class CameraActivity extends AppCompatActivity {
     public TextView serverStatus;
     public TextView socketin;
 
-
     public static String SERVERIP = "localhost";
-    public static final int SERVERPORT = 9191;
+    public static final int SERVERPORTS = 9191;
+    public static final int SERVERPORTR = 9192;
     private Handler handler = new Handler();
 
     @Override
@@ -51,10 +51,12 @@ public class CameraActivity extends AppCompatActivity {
         CameraView = new CameraView(this, camera);
         preview.addView(CameraView);
 
-        Thread sThread = new Thread(new CameraServerThread(this, SERVERIP, SERVERPORT, handler));
+        //Socket to send imagens
+        Thread sThread = new Thread(new CameraServerThread(this, SERVERIP, SERVERPORTS, handler));
         sThread.start();
-
-        //Thread cThread = new Thread(new CameraCommands());
+        //Socket to receive commands
+        Thread rThread = new Thread(new CameraServerThread(this, SERVERIP, SERVERPORTR, handler));
+        rThread.start();
     }
 
     private String getLocalIpAddress () {
