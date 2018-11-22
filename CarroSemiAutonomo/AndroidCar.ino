@@ -14,7 +14,7 @@ char buff = " "; //Buffer utilizado para armazenar o caracter de comando via ser
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
 void setup() {
-  Serial.begin(115200);  
+  //Serial.begin(115200);  
   NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
@@ -27,8 +27,8 @@ void loop(){
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
         }else{ 
-          Serial.println("PERMITIDO");
-          Serial.println("");
+          //Serial.println("PERMITIDO");
+          //Serial.println("");
           motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
         }
       }
@@ -66,10 +66,10 @@ void DontTouchMe(void){
 bool DistanciaOK(void){
   int distance = 0;
   distance = distanceSensor.read();
-  Serial.print("Valor Ultrassonico: ");
-  Serial.println(distance);
+  //Serial.print("Valor Ultrassonico: ");
+  //Serial.println(distance);
   if(distance <= LimiteSup && distance >= LimiteInf){
-    Serial.println("PARE!");
+    //Serial.println("PARE!");
     return false;
   }else{
     return true;
@@ -81,12 +81,12 @@ bool InsideMap(void){
   int rightValue = 0; 
   leftValue = left.read();
   rightValue = right.read();
-  Serial.print("Valor InfravermelhoD: ");
-  Serial.println(rightValue);
-  Serial.print("Valor InfravermelhoL: ");
-  Serial.println(leftValue);
+  //Serial.print("Valor InfravermelhoD: ");
+  //Serial.println(rightValue);
+  //Serial.print("Valor InfravermelhoL: ");
+  //Serial.println(leftValue);
   if((leftValue > WhiteLine) | (rightValue > WhiteLine)){ //Modificar depois para analisar fita branca. Por enquanto, analisa-se uma fita preta
-    Serial.println("PARE!");
+    //Serial.println("PARE!");
     return false;
   }else{
     return true;
