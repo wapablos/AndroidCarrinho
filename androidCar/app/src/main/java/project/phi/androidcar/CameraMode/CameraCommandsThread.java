@@ -42,6 +42,8 @@ public class CameraCommandsThread implements Runnable {
             while (true) {
                 Socket s = ss.accept();
                 new Thread(new ServerSocketThread(s)).start();
+                SerialOIOIThread ioio = new SerialOIOIThread(command);
+                ioio.setup();
             }
         } catch (Exception e) {
             Log.d("ServerThread", "Run: ERROR");
@@ -91,12 +93,13 @@ public class CameraCommandsThread implements Runnable {
 
     public class SerialOIOIThread extends BaseIOIOLooper{
         char command;
+
         public SerialOIOIThread(char command) {
             super();
             this.command = command;
         }
 
-            public Uart uart;
+        public Uart uart;
         public OutputStream uart_out;
         public InputStream uart_in;
 
@@ -118,7 +121,7 @@ public class CameraCommandsThread implements Runnable {
                 e.printStackTrace();
             }
         }
-        
+
         @Override
         public void loop() throws ConnectionLostException {
             try {
