@@ -54,8 +54,9 @@ public class CameraActivity extends AppCompatActivity {
         //Socket to send imagens
         Thread sThread = new Thread(new CameraServerThread(this, SERVERIP, SERVERPORTS, handler));
         sThread.start();
+
         //Socket to receive commands
-        Thread rThread = new Thread(new CameraServerThread(this, SERVERIP, SERVERPORTR, handler));
+        Thread rThread = new Thread(new CameraCommandsThread(this, SERVERIP, SERVERPORTR, handler));
         rThread.start();
     }
 

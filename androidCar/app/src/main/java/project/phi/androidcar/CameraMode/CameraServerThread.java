@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,27 +59,18 @@ public class CameraServerThread implements Runnable {
         @Override
         public void run() {
             if(s != null){
-                String clientIp = s.getInetAddress().toString().replace("/", "");
-                int clientPort = s.getPort();
-                System.out.println("Client ip: "+ clientIp);
-                System.out.println("Client port: " +clientPort);
                 try {
                     s.setKeepAlive(true);
                     os = s.getOutputStream();
-                    is = s.getInputStream();
+                    Log.e("TEST","Entrando no while da Thread 01");
                     while(true){
-                        DataInputStream dis = new DataInputStream(is);
                         DataOutputStream dos = new DataOutputStream(os);
-                        //dos.writeInt(4);
-                        //dos.writeUTF("#@@#");
                         dos.writeInt(cameraActivityInstance.CameraView.FrameBuffer.size());
                         dos.writeUTF("-@@-");  //TOKEN UTF 02 -> AFTER IMG LENGTH
                         dos.flush();
-                        System.out.println(cameraActivityInstance.CameraView.FrameBuffer.size());
                         dos.write(cameraActivityInstance.CameraView.FrameBuffer.toByteArray());
                         dos.writeUTF("FEND");
                         dos.flush();
-                        cameraActivityInstance.socketin.setText(dis.readUTF());
                         Thread.sleep(1000/15); // 15 FRAMES PER SECOND
                     }
 
