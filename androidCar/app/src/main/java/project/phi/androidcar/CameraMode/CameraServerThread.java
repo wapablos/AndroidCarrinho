@@ -50,7 +50,6 @@ public class CameraServerThread implements Runnable {
     public class ServerSocketThread implements Runnable {
         Socket s = null;
         OutputStream os = null;
-        InputStream is = null;
 
         public ServerSocketThread(Socket s) throws IOException {
             this.s = s;

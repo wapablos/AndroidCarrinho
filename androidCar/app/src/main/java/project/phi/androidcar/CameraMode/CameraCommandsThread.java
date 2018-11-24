@@ -42,8 +42,6 @@ public class CameraCommandsThread implements Runnable {
             while (true) {
                 Socket s = ss.accept();
                 new Thread(new ServerSocketThread(s)).start();
-                SerialOIOIThread ioio = new SerialOIOIThread(command);
-                ioio.setup();
             }
         } catch (Exception e) {
             Log.d("ServerThread", "Run: ERROR");
@@ -70,6 +68,7 @@ public class CameraCommandsThread implements Runnable {
                     while(true){
                         DataInputStream dis = new DataInputStream(is);
                         command = dis.readChar();
+                        cameraActivityInstance.command = command;
                         Log.e("TEST", String.valueOf(command));
                         Thread.sleep(1000/5);
                     }
@@ -87,47 +86,6 @@ public class CameraCommandsThread implements Runnable {
                 }
             } else{
                 System.out.println("socket is null");
-            }
-        }
-    }
-
-    public class SerialOIOIThread extends BaseIOIOLooper{
-        char command;
-
-        public SerialOIOIThread(char command) {
-            super();
-            this.command = command;
-        }
-
-        public Uart uart;
-        public OutputStream uart_out;
-        public InputStream uart_in;
-
-        // SERIAL VARIABLES
-        int RX_PIN = 12;
-        int TX_PIN = 14;
-        int BAUND = 9600;
-
-        @Override
-        protected void setup() throws ConnectionLostException {
-
-            // Serial Setup
-            try {
-                uart = ioio_.openUart(RX_PIN, TX_PIN, BAUND, Uart.Parity.NONE, Uart.StopBits.ONE);
-                uart_in = uart.getInputStream();
-                uart_out = uart.getOutputStream();
-
-            } catch (ConnectionLostException e){
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void loop() throws ConnectionLostException {
-            try {
-                uart_out.write(command);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
