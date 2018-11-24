@@ -3,8 +3,6 @@ package project.phi.androidcar.CameraMode;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -12,10 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import ioio.lib.api.Uart;
-import ioio.lib.api.exception.ConnectionLostException;
-import ioio.lib.util.BaseIOIOLooper;
 
 public class CameraCommandsThread implements Runnable {
     private int ServerPort;

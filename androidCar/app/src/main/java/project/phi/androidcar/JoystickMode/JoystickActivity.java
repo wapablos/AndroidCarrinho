@@ -12,8 +12,6 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
