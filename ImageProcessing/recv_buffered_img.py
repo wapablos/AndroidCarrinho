@@ -18,11 +18,14 @@ def detect(img,myCascade,color,connSock):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     object = myCascade.detectMultiScale(gray, 1.3, 3)
     if  len(object) == 0 : print("Empty")
-    else : print("Something Detected")
+    else :
+        print("Something Detected")
+        connSock.send('IM'.encode())
     for (x, y, w, h) in object: cv.rectangle(img, (x, y), (x + w, y + h), color, 2)
 
 try:
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     print('Socket Initialized')
 except:
     print('Failed to Init Socket')
@@ -30,6 +33,7 @@ except:
 
 try:
     s.connect(addr)
+    s2.connect(addr2)
     print('Socket Connected')
 except:
     print('Connection Failed')
@@ -51,7 +55,7 @@ while True:
                 f.write(data[10:])
         try:
             img = cv.imread('shot.jpg')
-            detect(img, placa_cascade, blueColor, s)
+            detect(img, placa_cascade, blueColor, s2)
             cv.imshow("img", img)
             if cv.waitKey(25) == 27: break
         except: print('not image')
