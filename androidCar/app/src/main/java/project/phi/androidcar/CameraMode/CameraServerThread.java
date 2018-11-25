@@ -54,6 +54,10 @@ public class CameraServerThread implements Runnable {
             this.s = s;
         }
 
+        /*
+        Depois que volta no app qdo o pc conecta de novo as imagens não são mais exibidas
+         */
+        
         @Override
         public void run() {
             if(s != null){
