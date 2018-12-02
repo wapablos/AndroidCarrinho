@@ -10,13 +10,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import project.phi.androidcar.DijkstraMode.DijkstraActivity;
 import project.phi.androidcar.JoystickMode.JoystickActivity;
 import project.phi.androidcar.CameraMode.CameraActivity;
-
-/*
-    TODO: Modificar o layout dessa Activity
-
-*/
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         bnt_cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                Intent intent = new Intent(MainActivity.this, DijkstraActivity.class);
                 startActivity(intent);
             }
         });
