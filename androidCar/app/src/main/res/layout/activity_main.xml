@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="175dp"
         android:background="@color/colorPrimaryDark"
-        android:text="CAMERA"
+        android:text="NORMAL MODE"
         android:textColor="@android:color/white" />
 
     <Button
@@ -29,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="118dp"
         android:background="@color/colorPrimaryDark"
-        android:text="JOYSTICK"
+        android:text="JOYSTICK MODE"
         android:textColor="@android:color/white" />
 
     <ImageView
