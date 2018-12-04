@@ -17,7 +17,9 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Map;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.Uart;
@@ -39,16 +41,21 @@ public class CameraActivity extends IOIOActivity {
     public TextView serverStatus;
     public TextView socketin;
 
+    // CONFIGURACAO SOCKETS
     public static String SERVERIP = "localhost";
     public static final int SERVERPORTS = 9191;
     public static final int SERVERPORTR = 9192;
     private Handler handler = new Handler();
 
+    // SERIAL IOIO
     public Uart uart;
     public OutputStream uart_out;
     public InputStream uart_in;
 
     public char command = 'x';
+
+    // LISTAS PARA O ALGORTMO ROTEAMENTO
+    public static ArrayList ida,volta;
 
     // SERIAL VARIABLES
     int RX_PIN = 12;
@@ -79,6 +86,7 @@ public class CameraActivity extends IOIOActivity {
         //Socket to receive commands
         Thread rThread = new Thread(new CameraCommandsThread(this, SERVERIP, SERVERPORTR, handler));
         rThread.start();
+
     }
 
     class Looper extends BaseIOIOLooper {
@@ -103,6 +111,7 @@ public class CameraActivity extends IOIOActivity {
                 SerialWrite(command);
                 command = 'x';
             }
+
         }
 
         @Override
@@ -115,6 +124,8 @@ public class CameraActivity extends IOIOActivity {
             showVersion(ioio_, "Incompatible firmware version!");
         }
     }
+
+
 
     public void SerialWrite(char message) {
         try {
