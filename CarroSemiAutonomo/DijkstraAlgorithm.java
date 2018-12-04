@@ -1,7 +1,9 @@
 public class DijkstraAlgorithm {
     // A utility function to find the vertex with minimum distance value, 
     // from the set of vertices not yet included in shortest path tree 
+    int x = -1, y = 0;
     int INF = 100;
+    int[][] pathVect = null;
     int[][] adjacencyMatrix = { { 0, INF, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0}, 
                                 { 1,  0,  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
                                 { 0,  1,  0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}, 
@@ -37,6 +39,12 @@ public class DijkstraAlgorithm {
         // i is finalized 
         boolean[] added = new boolean[nVertices]; 
         
+        pathVect = new int[nVertices-1][nVertices];
+        for(int j=0;j<(nVertices-1);j++){
+            for(int i=0;i<nVertices;i++){
+                pathVect[j][i]=-1;
+            }
+        } //Caso pathVect[j] = -1 o percurso terminou
         switch(startVertex){
             case 3:
                 adjacencyMatrix[3][2] = INF;
@@ -108,7 +116,6 @@ public class DijkstraAlgorithm {
                 } 
             } 
         } 
-        
         if (startVertex != 0)
             pathToSource(startVertex, shortestDistances, parents);
         else
@@ -118,18 +125,18 @@ public class DijkstraAlgorithm {
     // A utility function to print  
     // the constructed distances 
     // array and shortest paths 
-    private static void printSolution(int startVertex, int[] distances, int[] parents) 
+    private void printSolution(int startVertex, int[] distances, int[] parents) 
     { 
         int nVertices = distances.length; 
-        System.out.print("Vertex\t Distance\tPath"); 
+        //System.out.print("Vertex\t Distance\tPath"); 
           
         for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++)  
         { 
             if (vertexIndex != startVertex)  
             { 
-                System.out.print("\n" + startVertex + " -> "); 
-                System.out.print(vertexIndex + " \t\t "); 
-                System.out.print(distances[vertexIndex] + "\t\t"); 
+                //System.out.print("\n" + startVertex + " -> "); 
+                //System.out.print(vertexIndex + " \t\t "); 
+                //System.out.print(distances[vertexIndex] + "\t\t"); 
                 printPath(vertexIndex, parents); 
             } 
         } 
@@ -138,26 +145,33 @@ public class DijkstraAlgorithm {
     // Function to print shortest path 
     // from source to currentVertex 
     // using parents array 
-    private static void printPath(int currentVertex, int[] parents) 
+    private void printPath(int currentVertex, int[] parents) 
     { 
-          
         // Base case : Source node has 
         // been processed 
         if (currentVertex == NO_PARENT) 
         { 
+            x++; y=0;
             return; 
-        } 
+        }
         printPath(parents[currentVertex], parents); 
-        System.out.print(currentVertex + " "); 
+        pathVect[x][y] = currentVertex;
+        //System.out.print(currentVertex + " ");
+        //System.out.println(pathVect[x][y]);
+        y++;
     }
     
-    private static void pathToSource(int startVertex, int[] distances, int[] parents)
+    private void pathToSource(int startVertex, int[] distances, int[] parents)
     {
         int src = 0;
-        System.out.print("Vertex\t Distance\tPath"); 
-        System.out.print("\n" + startVertex + " -> "); 
-        System.out.print(src + " \t\t "); 
-        System.out.print(distances[src] + "\t\t"); 
+        //System.out.print("Vertex\t Distance\tPath"); 
+        //System.out.print("\n" + startVertex + " -> "); 
+        //System.out.print(src + " \t\t "); 
+        //System.out.print(distances[src] + "\t\t"); 
         printPath(src, parents);
+    }
+    
+    public int[][] getPathVect() {
+        return pathVect;
     }
 }
