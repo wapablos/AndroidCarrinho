@@ -17,16 +17,7 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Escolha o ponto inicial e final:" />
-
-    <EditText
-        android:id="@+id/init_point"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Ponto Inicial"
-        android:inputType="number"
-        android:maxLength="1" />
+        android:text="Escolha o ponto final:" />
 
     <EditText
         android:id="@+id/final_point"
@@ -35,7 +26,7 @@
         android:ems="10"
         android:hint="Ponto Final"
         android:inputType="number"
-        android:maxLength="1" />
+        android:maxLength="2" />
 
     <Button
         android:id="@+id/bnt_start"
