@@ -9,7 +9,7 @@ FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infra
 
 #define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
-#define WhiteLine 700 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
+#define WhiteLine 850 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
