@@ -3,8 +3,9 @@ public class DijkstraAlgorithm {
     // from the set of vertices not yet included in shortest path tree 
     private int x = -1, y = 0;
     private final int INF = 100;
-    private int[][] pathVect = null;
-    private char[][] cmdVect = null;
+    public int[][] pathVect = null;
+    public char[][] cmdVect = null;
+    private final int[] PathValue = new int[3];
     private final int[][] adjacencyMatrix = { { 0, INF, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0}, 
                                               { 1,  0,  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
                                               { 0,  1,  0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}, 
@@ -41,6 +42,7 @@ public class DijkstraAlgorithm {
         boolean[] added = new boolean[nVertices]; 
         
         pathVect = new int[nVertices-1][nVertices];
+        
         for(int j=0;j<(nVertices-1);j++){
             for(int i=0;i<nVertices;i++){
                 pathVect[j][i]=-1;
@@ -118,9 +120,10 @@ public class DijkstraAlgorithm {
             } 
         } 
         if (startVertex != 0)
-            pathToSource(parents);
+            printPath(0,parents);
         else
-            printSolution(startVertex, shortestDistances, parents); 
+            printSolution(startVertex, shortestDistances, parents);
+        findCmdVect(startVertex);
     } 
   
     // A utility function to print  
@@ -156,13 +159,41 @@ public class DijkstraAlgorithm {
         y++;
     }
     
-    private void pathToSource(int[] parents)
-    {
-        int src = 0; 
-        printPath(src, parents);
+    private void findCmdVect(int startVertex){
+        boolean pathV2, pathV1;
+        for(int i=0;i<pathVect[0].length;i++){
+            for(int j=0; j<pathVect[0].length;j=j+2){
+                PathValue[0] = pathVect[i][j];
+                PathValue[1] = pathVect[i][j+1];
+                PathValue[2] = pathVect[i][j+2];
+                
+                if(PathValue[1] != -1)
+                    pathV1 = true;
+                else
+                    pathV1 = false;
+                
+                if(PathValue[2] != -1)
+                    pathV2 = true;
+                else
+                    pathV2 = false;
+                
+                int u = 0;
+                if((adjacencyMatrix[PathValue[0]][PathValue[1]] == 2 && pathV1) || 
+                   (adjacencyMatrix[PathValue[0]][PathValue[1]] + adjacencyMatrix[PathValue[1]][PathValue[2]] == 2) && pathV2)
+                {
+                    cmdVect[i][u] = 'f';
+                }
+                else if()
+                u++;
+            }
+        }
     }
     
-    private void findCmdVect(){
-        
+    public int[][] getPathVect() {
+        return pathVect;
+    }
+    
+    public char[][] getCmdVect() {
+        return cmdVect;
     }
 }
