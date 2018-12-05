@@ -1,26 +1,28 @@
+package maprouting;
+
 public class DijkstraAlgorithm {
     // A utility function to find the vertex with minimum distance value, 
     // from the set of vertices not yet included in shortest path tree 
     private int x = -1, y = 0;
     private final int INF = 100;
-    public int[][] pathVect = null;
-    public char[][] cmdVect = null;
+    private int[][] pathVect = null;
+    private char[][] cmdVect = null;
     private final int[] PathValue = new int[3];
-    private final int[][] adjacencyMatrix = { { 0, INF, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0}, 
-                                              { 1,  0,  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-                                              { 0,  1,  0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}, 
-                                              { 0,  0,  1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-                                              { 0,  0,  0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-                                              { 0,  0,  0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2}, 
-                                              { 0,  0,  0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0}, 
-                                              { 0,  0,  2, 0, 0, 0, 1, 0, 1, 0, 0, 0, 2, 0, 0}, 
-                                              { 0,  0,  0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-                                              {INF, 0,  0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0},
-                                              { 0,  0,  0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0},
-                                              { 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0},
-                                              { 0,  0,  0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 1, 0},
-                                              { 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-                                              { 0,  0,  0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
+    private final int[][] adjacencyMatrix = { { 0, INF, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0}, 
+                                              { 1,  0,  2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+                                              { 0,  3,  0, 2, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0}, 
+                                              { 0,  0,  3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+                                              { 0,  0,  0, 3, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+                                              { 0,  0,  0, 0, 5, 0, 3, 0, 0, 0, 0, 0, 0, 0, 5}, 
+                                              { 0,  0,  0, 0, 0, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0}, 
+                                              { 0,  0,  5, 0, 0, 0, 3, 0, 3, 0, 0, 0, 5, 0, 0}, 
+                                              { 0,  0,  0, 0, 0, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0},
+                                              {INF, 0,  0, 0, 0, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0},
+                                              { 0,  0,  0, 0, 0, 0, 0, 0, 0, 4, 0, 3, 0, 0, 0},
+                                              { 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3, 0, 0},
+                                              { 0,  0,  0, 0, 0, 0, 0, 5, 0, 0, 0, 2, 0, 3, 0},
+                                              { 0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2},
+                                              { 0,  0,  0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 0} };
     private static final int NO_PARENT = -1;
     // Function that implements Dijkstra's 
     // single source shortest path 
@@ -123,7 +125,7 @@ public class DijkstraAlgorithm {
             printPath(0,parents);
         else
             printSolution(startVertex, shortestDistances, parents);
-        findCmdVect(startVertex);
+        findCmdVect(startVertex, nVertices);
     } 
   
     // A utility function to print  
@@ -159,33 +161,67 @@ public class DijkstraAlgorithm {
         y++;
     }
     
-    private void findCmdVect(int startVertex){
+    private void findCmdVect(int startVertex, int nVertices){
+        cmdVect = new char[nVertices-1][nVertices];
         boolean pathV2, pathV1;
-        for(int i=0;i<pathVect[0].length;i++){
-            for(int j=0; j<pathVect[0].length;j=j+2){
+        int u = 0;
+        for(int j=0;j<(nVertices-1);j++){
+            for(int i=0;i<nVertices;i++){
+                cmdVect[j][i]=' ';
+            }
+        }
+        
+        for(int i=0;i<(nVertices-1);i++){
+            u = 0;
+            for(int j=0; j<nVertices;j=j+2){
                 PathValue[0] = pathVect[i][j];
                 PathValue[1] = pathVect[i][j+1];
                 PathValue[2] = pathVect[i][j+2];
                 
+                if(PathValue[0] == -1)
+                    break;
+                
                 if(PathValue[1] != -1)
                     pathV1 = true;
                 else
+                {
+                    PathValue[1] = 0;
                     pathV1 = false;
-                
+                }
                 if(PathValue[2] != -1)
                     pathV2 = true;
                 else
-                    pathV2 = false;
-                
-                int u = 0;
-                if((adjacencyMatrix[PathValue[0]][PathValue[1]] == 2 && pathV1) || 
-                   (adjacencyMatrix[PathValue[0]][PathValue[1]] + adjacencyMatrix[PathValue[1]][PathValue[2]] == 2) && pathV2)
                 {
-                    cmdVect[i][u] = 'f';
+                    PathValue[2] = 0;
+                    pathV2 = false;
                 }
-                else if()
+                System.out.println(PathValue[0]);
+                System.out.println(PathValue[1]);
+                System.out.println(PathValue[2]);
+                SearchConditions(pathV1,pathV2,i,u);
+                SearchConditions(false,pathV2,i,u+1);
                 u++;
             }
+        }
+    }
+    
+    private void SearchConditions(boolean pathV1, boolean pathV2, int i, int u){
+        if((adjacencyMatrix[PathValue[0]][PathValue[1]] >= 4 && pathV1)||
+          ((adjacencyMatrix[PathValue[0]][PathValue[1]] + adjacencyMatrix[PathValue[1]][PathValue[2]]) < 7 && pathV2)||
+          (PathValue[0] == 0))
+        {
+            cmdVect[i][u] = 'f';
+            System.out.println("frente");
+        }
+        if(((adjacencyMatrix[PathValue[0]][PathValue[1]] + adjacencyMatrix[PathValue[1]][PathValue[2]]) == 8) && pathV2)
+        {
+            cmdVect[i][u] = 'l';
+            System.out.println("esquerda");
+        }
+        else
+        {
+            cmdVect[i][u] = 'r';
+            System.out.println("direita");
         }
     }
     
