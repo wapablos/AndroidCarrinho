@@ -106,7 +106,7 @@ public class CameraActivity extends IOIOActivity {
         }
 
         @Override
-        public void loop() throws ConnectionLostException {
+        public void loop() throws ConnectionLostException, InterruptedException {
             Running(ida); // Caminho de ida
             Running(volta); // Caminho de volta
         }
@@ -122,7 +122,7 @@ public class CameraActivity extends IOIOActivity {
         }
     }
 
-    public void Running(char[] path){
+    public void Running(char[] path) throws InterruptedException {
         for (int i = 0; i<=path.length; i++) {
             if (command != 'x') {
                 SerialWrite(command);
@@ -157,6 +157,8 @@ public class CameraActivity extends IOIOActivity {
 
             resp = ""; // Limpa a variável de resposta
         }
+        // Tempo que o carrinho vai ficar esperando ao chegar no destino final
+        Thread.sleep(1000);
     }
 
     public void SerialWrite(char message) {
