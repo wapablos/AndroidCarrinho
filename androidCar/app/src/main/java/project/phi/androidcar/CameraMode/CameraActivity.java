@@ -48,10 +48,14 @@ public class CameraActivity extends IOIOActivity {
     public OutputStream uart_out;
     public InputStream uart_in;
 
+    // CONTROL
     public char command = 'x';
 
-    // LISTAS PARA O ALGORTMO ROTEAMENTO
-    public char[] ida,volta;
+    // VETOR PARA O ALGORTMO ROTEAMENTO
+    public static char[] ida;
+    public static char[] volta;
+    public String resp;
+    String OK = "ok";
 
     // SERIAL VARIABLES
     int RX_PIN = 12;
@@ -103,11 +107,8 @@ public class CameraActivity extends IOIOActivity {
 
         @Override
         public void loop() throws ConnectionLostException {
-            if (command != 'x'){
-                SerialWrite(command);
-                command = 'x';
-            }
-
+            Running(ida); // Caminho de ida
+            Running(volta); // Caminho de volta
         }
 
         @Override
@@ -121,7 +122,42 @@ public class CameraActivity extends IOIOActivity {
         }
     }
 
+    public void Running(char[] path){
+        for (int i = 0; i<=path.length; i++) {
+            if (command != 'x') {
+                SerialWrite(command);
+                command = 'x';
+            }
 
+            // Para o caso de left (l) ou right (r) a aplicação precisa enviar dois comandos
+            // O primeiro para girar (l or r) e o segundo para ir pra frente
+            if (ida[i] == 'l' || ida[i] == 'r'){
+                SerialWrite(ida[i]);
+                SerialWrite('f');
+            } else {
+                SerialWrite(ida[i]);
+            }
+
+            // Aplicação fica esperando a resposta do HARDWARE
+            while (!resp.equals(OK)) {
+                // Serial READ example:
+                try {
+                    int availableBytes = uart_in.available();
+
+                    if (availableBytes > 0) {
+                        byte[] readBuffer = new byte[20];
+                        uart_in.read(readBuffer, 0, availableBytes);
+                        char[] Temp = (new String(readBuffer, 0, availableBytes).toCharArray());
+                        resp = new String(Temp);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            resp = ""; // Limpa a variável de resposta
+        }
+    }
 
     public void SerialWrite(char message) {
         try {

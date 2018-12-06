@@ -41,6 +41,9 @@ public class RoutingActivity extends AppCompatActivity {
 
                     ida = cmd.getCmdIda();
                     volta = cmd.getCmdVolta();
+
+                    CameraActivity.ida = ida;
+                    CameraActivity.volta = volta;
                 }
             }
         });
