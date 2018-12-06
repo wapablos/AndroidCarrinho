@@ -58,16 +58,16 @@ public class JoystickActivity extends IOIOActivity{
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_joystick);
 
-        IOIOstatus = (TextView) findViewById(R.id.ioio_status);
-        front_log = (TextView) findViewById(R.id.front_log);
-        bottom_log = (TextView) findViewById(R.id.bottom_log);
-        left_log = (TextView) findViewById(R.id.left_log);
-        right_log = (TextView) findViewById(R.id.right_log);
+        IOIOstatus  = (TextView) findViewById(R.id.ioio_status);
+        front_log   = (TextView) findViewById(R.id.front_log);
+        bottom_log  = (TextView) findViewById(R.id.bottom_log);
+        left_log    = (TextView) findViewById(R.id.left_log);
+        right_log   = (TextView) findViewById(R.id.right_log);
 
-        bnt_up = (ImageButton) findViewById(R.id.bnt_up);
-        bnt_down = (ImageButton) findViewById(R.id.bnt_down);
-        bnt_left = (ImageButton) findViewById(R.id.bnt_left);
-        bnt_right = (ImageButton) findViewById(R.id.bnt_right);
+        bnt_up      = (ImageButton) findViewById(R.id.bnt_up);
+        bnt_down    = (ImageButton) findViewById(R.id.bnt_down);
+        bnt_left    = (ImageButton) findViewById(R.id.bnt_left);
+        bnt_right   = (ImageButton) findViewById(R.id.bnt_right);
 
     }
 
@@ -81,9 +81,9 @@ public class JoystickActivity extends IOIOActivity{
 
             // Serial Setup
             try {
-                uart = ioio_.openUart(RX_PIN, TX_PIN, BAUND, Uart.Parity.NONE, Uart.StopBits.ONE);
-                uart_in = uart.getInputStream();
-                uart_out = uart.getOutputStream();
+                uart        = ioio_.openUart(RX_PIN, TX_PIN, BAUND, Uart.Parity.NONE, Uart.StopBits.ONE);
+                uart_in     = uart.getInputStream();
+                uart_out    = uart.getOutputStream();
 
             } catch (ConnectionLostException e){
                 e.printStackTrace();
@@ -213,22 +213,5 @@ public class JoystickActivity extends IOIOActivity{
             }
         });
     }
-
-    /*
-        # Serial READ example:
-        try {
-                int availableBytes = uart_in.available();
-
-                if (availableBytes > 0) {
-                    byte[] readBuffer = new byte[BufferSize];
-                    uart_in.read(readBuffer, 0, availableBytes);
-                    char[] Temp = (new String(readBuffer, 0, availableBytes).toCharArray());
-                    String Temp2 = new String(Temp);
-                    Log.e(TAG,"Receive: " + Temp2);
-                }
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-     */
 }
 
