@@ -11,7 +11,11 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="382dp"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/city_map" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="22dp" />
 
     <TextView
         android:id="@+id/textView2"

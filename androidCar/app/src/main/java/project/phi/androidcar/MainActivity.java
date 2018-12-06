@@ -10,9 +10,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import project.phi.androidcar.DijkstraMode.DijkstraActivity;
+import project.phi.androidcar.RoutingMode.RoutingActivity;
 import project.phi.androidcar.JoystickMode.JoystickActivity;
-import project.phi.androidcar.CameraMode.CameraActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         bnt_cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DijkstraActivity.class);
+                Intent intent = new Intent(MainActivity.this, RoutingActivity.class);
                 startActivity(intent);
             }
         });

@@ -29,10 +29,6 @@ import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.android.IOIOActivity;
 import project.phi.androidcar.R;
 
-/*
-    TODO: Colocar um textview no activity_streaming ao lado do ip, para mostrar as mensagens recebidas via socket.
- */
-
 public class CameraActivity extends IOIOActivity {
 
     private Camera camera;
@@ -55,7 +51,7 @@ public class CameraActivity extends IOIOActivity {
     public char command = 'x';
 
     // LISTAS PARA O ALGORTMO ROTEAMENTO
-    public static ArrayList ida,volta;
+    public char[] ida,volta;
 
     // SERIAL VARIABLES
     int RX_PIN = 12;

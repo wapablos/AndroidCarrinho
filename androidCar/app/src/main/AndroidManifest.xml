@@ -28,7 +28,7 @@
         </activity>
         <activity android:name=".JoystickMode.JoystickActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".CameraMode.CameraActivity" android:screenOrientation="landscape"></activity>
-        <activity android:name=".DijkstraMode.DijkstraActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".RoutingMode.RoutingActivity" android:screenOrientation="portrait"></activity>
 
 
     </application>
