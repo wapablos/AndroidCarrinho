@@ -1,6 +1,7 @@
 package project.phi.androidcar.RoutingMode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import project.phi.androidcar.CameraMode.CameraActivity;
+import project.phi.androidcar.MainActivity;
 import project.phi.androidcar.R;
 
 public class RoutingActivity extends AppCompatActivity {
@@ -45,6 +47,9 @@ public class RoutingActivity extends AppCompatActivity {
                     CameraActivity.ida = ida;
                     CameraActivity.volta = volta;
                 }
+
+                Intent intent = new Intent(RoutingActivity.this, CameraActivity.class);
+                startActivity(intent);
             }
         });
     }
