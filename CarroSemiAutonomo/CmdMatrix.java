@@ -1,5 +1,3 @@
-package maprouting;
-
 public class CmdMatrix {
     private final char[][] CmdLeave = { { 'f', 'l', 'f', 'l', 'l', ' ', ' ', ' ', ' '}, 
                           { 'f', 'l', ' ', ' ', ' ', ' ', ' ', ' ', ' '}, 
