@@ -46,10 +46,11 @@ public class RoutingActivity extends AppCompatActivity {
 
                     CameraActivity.ida = ida;
                     CameraActivity.volta = volta;
-                }
 
-                Intent intent = new Intent(RoutingActivity.this, CameraActivity.class);
-                startActivity(intent);
+                    // Chamando Activity da Camera
+                    Intent intent = new Intent(RoutingActivity.this, CameraActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
