@@ -50,7 +50,6 @@ public class CameraActivity extends IOIOActivity {
 
     // CONTROL
     public char command = 'x';
-
     // VETOR PARA O ALGORTMO ROTEAMENTO
     public static char[] ida;
     public static char[] volta;
@@ -124,8 +123,19 @@ public class CameraActivity extends IOIOActivity {
 
     public void Running(char[] path) throws InterruptedException {
         for (int i = 0; i<=path.length; i++) {
+            Log.e("TEST4", String.valueOf("CharConn: "+command));
             if (command != 'x') {
-                SerialWrite(command);
+                if (command == 'W') {
+                    Log.e("TEST3", String.valueOf("PyMSG: "+command));
+                    SerialWrite('s');
+                    Thread.sleep(2000);
+                }
+                else if ( command == 'R') {
+                    SerialWrite('s');
+                    while (command != 'G') {
+                        Thread.sleep(100);
+                    }
+                }
                 command = 'x';
             }
 
