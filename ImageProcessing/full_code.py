@@ -4,12 +4,12 @@ import cv2 as cv
 import struct
 import numpy as np
 import imutils
-#ip = '192.168.43.1'
-ip = '200.239.73.161'
+ip = '192.168.43.1'
+#ip = '200.239.73.161'
 addr = (ip,9191)
 addr2 =(ip,9192)
 
-placa_cascade = cv.CascadeClassifier('cascades/turn_left.xml')
+placa_cascade = cv.CascadeClassifier('cascades/placa_pare.xml')
 
 blueColor=(255,0,0)
 redColor=(0,0,255)
@@ -35,13 +35,13 @@ def drawContours(cnts,img):
         M = cv.moments(c)
         cv.circle(img, (int(x), int(y)), 20, (0, 255, 255), 2)
 
-def detect(img,myCascade,color,connSock,crtlMsg):
+def detect(img,myCascade,color,connSock):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     object = myCascade.detectMultiScale(gray, 1.3, 3)
     if  len(object) == 0 : print("Empty")
     else :
         print('Send \'im\'')
-        connSock.send(crtlMsg.encode())
+        connSock.send('J'.encode())
     for (x, y, w, h) in object: cv.rectangle(img, (x, y), (x + w, y + h), color, 2)
 
 try:
@@ -88,7 +88,7 @@ while True:
                     print("Red")
                 else:
                     print("No image")
-            detect(img, placa_cascade, blueColor, s2, 's')
+            detect(img, placa_cascade, blueColor, s2)
             cv.imshow("img", img)
             if cv.waitKey(25) == 27: break
         except: print('not image')
