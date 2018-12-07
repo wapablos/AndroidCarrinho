@@ -4,7 +4,7 @@ import cv2 as cv
 import struct
 import numpy as np
 import imutils
-ip = '192.168.43.1'
+ip = '192.168.43.35'
 #ip = '200.239.73.161'
 addr = (ip,9191)
 addr2 =(ip,9192)
@@ -41,7 +41,7 @@ def detect(img,myCascade,color,connSock):
     if  len(object) == 0 : print("Empty")
     else :
         print('Send \'im\'')
-        connSock.send('J'.encode())
+        connSock.send('W'.encode())
     for (x, y, w, h) in object: cv.rectangle(img, (x, y), (x + w, y + h), color, 2)
 
 try:
