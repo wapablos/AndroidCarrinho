@@ -17,6 +17,7 @@ public class CameraCommandsThread implements Runnable {
     private Context context;
     private Handler handler;
     private CameraActivity cameraActivityInstance;
+    public Byte byteCommand;
     public char command;
 
     public CameraCommandsThread(Context context, String serverip, int serverport, Handler handler) {
@@ -61,9 +62,10 @@ public class CameraCommandsThread implements Runnable {
 
                     while(true){
                         DataInputStream dis = new DataInputStream(is);
-                        command = dis.readChar();
+                        byteCommand = dis.readByte();
+                        command = new String(new byte[]{byteCommand},"ascii").charAt(0);
                         cameraActivityInstance.command = command;
-                        Log.e("TEST", String.valueOf(command));
+                        Log.e("TEST2", String.valueOf("Command: "+command));
                         Thread.sleep(1000/5);
                     }
 
