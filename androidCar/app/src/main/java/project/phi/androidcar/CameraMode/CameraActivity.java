@@ -53,8 +53,8 @@ public class CameraActivity extends IOIOActivity {
     // VETOR PARA O ALGORTMO ROTEAMENTO
     public static char[] ida;
     public static char[] volta;
-    public String resp;
-    String OK = "ok";
+    public String resp = " ";
+    String OK = "s";
 
     // SERIAL VARIABLES
     int RX_PIN = 12;
@@ -106,8 +106,14 @@ public class CameraActivity extends IOIOActivity {
 
         @Override
         public void loop() throws ConnectionLostException, InterruptedException {
-            Running(ida); // Caminho de ida
-            Running(volta); // Caminho de volta
+//            Log.e("TEST", "Entrando no running de ida");
+            Running(ida);
+            Running(volta);
+            while(true){
+                Log.e("TEST", "FIM");
+                Thread.sleep(1000);
+            }
+//            Log.e("TEST", "Saindo no running de ida");
         }
 
         @Override
@@ -123,7 +129,8 @@ public class CameraActivity extends IOIOActivity {
 
     public void Running(char[] path) throws InterruptedException {
         for (int i = 0; i<=path.length; i++) {
-            Log.e("TEST4", String.valueOf("CharConn: "+command));
+            Log.e("TEST", "Interação: "+ i);
+
             if (command != 'x') {
                 if (command == 'W') {
                     Log.e("TEST3", String.valueOf("PyMSG: "+command));
@@ -139,42 +146,54 @@ public class CameraActivity extends IOIOActivity {
                 command = 'x';
             }
 
-            // Para o caso de left (l) ou right (r) a aplicação precisa enviar dois comandos
-            // O primeiro para girar (l or r) e o segundo para ir pra frente
-            if (ida[i] == 'l' || ida[i] == 'r'){
-                SerialWrite(ida[i]);
-                SerialWrite('f');
+            // TODO: DEBUG: Enviando o path[i] direto o arduino não reconhece (motivo desconhecido).
+            if (path[i] != ' ') {
+                if (path[i] == 'f'){
+                    Log.e("TEST", "Enviado: "+ path[i]);
+                    SerialWrite('f');
+
+                } else if (path[i] == 'r'){
+                    Log.e("TEST", "Enviado: "+ path[i]);
+                    SerialWrite('r');
+
+                } else if (path[i] == 'l'){
+                    Log.e("TEST", "Enviado: "+ path[i]);
+                    SerialWrite('l');
+
+                } else if (path[i] == 'L'){
+                    Log.e("TEST", "Enviado: "+ path[i]);
+                    SerialWrite('L');
+                }
             } else {
-                SerialWrite(ida[i]);
+                break;
             }
 
             // Aplicação fica esperando a resposta do HARDWARE
             while (!resp.equals(OK)) {
-                // Serial READ example:
                 try {
                     int availableBytes = uart_in.available();
-
                     if (availableBytes > 0) {
-                        byte[] readBuffer = new byte[20];
+                        byte[] readBuffer = new byte[10];
                         uart_in.read(readBuffer, 0, availableBytes);
                         char[] Temp = (new String(readBuffer, 0, availableBytes).toCharArray());
                         resp = new String(Temp);
+                        Log.e("TEST", "Recebido: "+resp);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
-            resp = ""; // Limpa a variável de resposta
+            resp = "x";
         }
         // Tempo que o carrinho vai ficar esperando ao chegar no destino final
-        Thread.sleep(1000);
+        Thread.sleep(5000);
     }
 
     public void SerialWrite(char message) {
         try {
             uart_out.write(message);
         } catch (IOException e) {
+            Log.e("TEST", "Entrando na exception");
             e.printStackTrace();
         }
     }

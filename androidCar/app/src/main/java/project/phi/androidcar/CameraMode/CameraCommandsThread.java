@@ -62,8 +62,9 @@ public class CameraCommandsThread implements Runnable {
 
                     while(true){
                         DataInputStream dis = new DataInputStream(is);
-                        byteCommand = dis.readByte();
-                        command = new String(new byte[]{byteCommand},"ascii").charAt(0);
+                        //byteCommand = dis.readByte();
+                        //command = new String(new byte[]{byteCommand},"ascii").charAt(0);
+                        command = dis.readChar();
                         cameraActivityInstance.command = command;
                         Log.e("TEST2", String.valueOf("Command: "+command));
                         Thread.sleep(1000/5);
