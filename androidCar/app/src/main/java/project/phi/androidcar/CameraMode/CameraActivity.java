@@ -61,6 +61,13 @@ public class CameraActivity extends IOIOActivity {
     int TX_PIN = 14;
     int BAUND = 9600;
 
+    //COMMANDS
+    char UP = 'f';
+    char RIGHT = 'r';
+    char LEFT = 'l';
+    char STOP = 's';
+    char END = 'L';
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,11 +141,11 @@ public class CameraActivity extends IOIOActivity {
             if (command != 'x') {
                 if (command == 'W') {
                     Log.e("TEST3", String.valueOf("PyMSG: "+command));
-                    SerialWrite('s');
+                    SerialWrite(STOP);
                     Thread.sleep(2000);
                 }
                 else if ( command == 'R') {
-                    SerialWrite('s');
+                    SerialWrite(STOP);
                     while (command != 'G') {
                         Thread.sleep(100);
                     }
@@ -150,19 +157,19 @@ public class CameraActivity extends IOIOActivity {
             if (path[i] != ' ') {
                 if (path[i] == 'f'){
                     Log.e("TEST", "Enviado: "+ path[i]);
-                    SerialWrite('f');
+                    SerialWrite(UP);
 
                 } else if (path[i] == 'r'){
                     Log.e("TEST", "Enviado: "+ path[i]);
-                    SerialWrite('r');
+                    SerialWrite(RIGHT);
 
                 } else if (path[i] == 'l'){
                     Log.e("TEST", "Enviado: "+ path[i]);
-                    SerialWrite('l');
+                    SerialWrite(LEFT);
 
                 } else if (path[i] == 'L'){
                     Log.e("TEST", "Enviado: "+ path[i]);
-                    SerialWrite('L');
+                    SerialWrite(END);
                 }
             } else {
                 break;
