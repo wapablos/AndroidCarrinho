@@ -46,9 +46,9 @@ public class JoystickActivity extends IOIOActivity{
 
     //COMMANDS
     char UP = 'f';
-    char DOWN = 'b';
-    char RIGHT = 'r';
-    char LEFT = 'l';
+    char DOWN = 't';
+    char RIGHT = 'd';
+    char LEFT = 'e';
     char STOP = 's';
 
     @Override
