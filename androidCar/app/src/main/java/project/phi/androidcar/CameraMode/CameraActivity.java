@@ -114,6 +114,9 @@ public class CameraActivity extends IOIOActivity {
         @Override
         public void loop() throws ConnectionLostException, InterruptedException {
 //            Log.e("TEST", "Entrando no running de ida");
+            //Delay inicial
+            Thread.sleep(2000);
+
             Running(ida);
             Running(volta);
             while(true){
