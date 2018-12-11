@@ -9,13 +9,13 @@ FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infra
 
 #define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
-#define WhiteLine 850 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
-#define SpdLeft 42
-#define SpdRight 40
+#define WhiteLine 700 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
+#define PontoInteresse 60//Valor referente ao ponto de interesse 
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
-void setup() { 
+void setup() {
+  //Serial.begin(115200);  
   NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
@@ -27,36 +27,33 @@ void loop(){
         if (!DistanciaOK() | !InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
-        }else{
-          motors.rightDrive(SpdRight, FORWARD); //Movimentando o carrinho para frente
-          motors.leftDrive(SpdLeft, FORWARD); //Movimentando o carrinho para frente
+        }else{ 
+          //Serial.println("PERMITIDO");
+          //Serial.println("");
+          FollowingLine(); //Movimentando o carrinho para frente
         }
       }
     break;
-    case 'l': //Movimentacao para o lado esquerdo(LEFT) 
+    case 'l': //Movimentacao para o lado esquerdo(LEFT)
       Turn90dl();
-      while(InsideMap() && DistanciaOK() && NewUART.read() != 's'){ //Condicao de parada(STOP)
-        motors.rightDrive(SpdRight, FORWARD); //Movimentando o carrinho para frente
-        motors.leftDrive(SpdLeft, FORWARD); //Movimentando o carrinho para frente
-      }
-    break;
+       while(DistaciaOK() && NewUART.read() !='s'){
+         FollowingLine();
+       }
+      break;
     case 'r': //Movimentacao para o lado direito(RIGHT)
       Turn90dr();
-      while(InsideMap() && DistanciaOK() && NewUART.read() != 's'){ //Condicao de parada(STOP)
-        motors.rightDrive(SpdRight, FORWARD); //Movimentando o carrinho para frente
-        motors.leftDrive(SpdLeft, FORWARD); //Movimentando o carrinho para frente
-      }
-    break;
+       while(DistaciaOK() && NewUART.read() !='s'){
+         FollowingLine();
+       }
+      break;
     case 'L': //Movimentacao default para a posicao inicial
       while(NewUART.read() !='s'){
-        PosIni();
-        break;   
-      }
+        PosIni();   
+    }
     break;
     case 't': //Movimentacao para tras(BACKWARD)
       while(NewUART.read() != 's'){ //Condicao de parada(STOP)
-        motors.rightDrive(SpdRight, BACKWARD); //Movimentando o carrinho para tras
-        motors.leftDrive(SpdLeft, BACKWARD); //Movimentando o carrinho para tras
+        motors.drive(MotorsPower, BACKWARD); //Movimentando o carrinho para tras
       }
     break;
     case 'e': //Movimentacao para o lado esquerdo(LEFT)
@@ -71,20 +68,56 @@ void loop(){
     break;
     default:
       motors.stop(); //Mantendo o carrinho parado
-    break;  
+      delay(250);
+    break;
+      
   }
 }
 
 void DontTouchMe(void){
   motors.stop();
   delay(1000);
+  /*motors.drive(MotorsPower, BACKWARD);
+  delay(500);
+  motors.stop();*/
 }
+void FollowingLine(void){
+  int leftSpeed;
+  int rightSpeed;
+  int leftValue = left.read();
+  int rightValue = right.read();
+   // if the both sensors are on the line, drive forward left and right at the same speed
+  if((leftValue > WhiteLine) && (rightValue > WhiteLine)) {
+    leftSpeed = MotorsPower;
+    rightSpeed = MotorsPower;
+  }
+
+  // if the line only is under the right sensor, adjust relative speeds to turn to the right
+  else if(rightValue > WhiteLine) {
+    leftSpeed = MotorsPower + 5;
+    rightSpeed = MotorsPower - 5;
+  }
+
+  // if the line only is under the left sensor, adjust relative speeds to turn to the left
+  else if(leftValue > WhiteLine) {
+    leftSpeed = MotorsPower- 5;
+    rightSpeed = MotorsPower + 5;
+  }
+
+  // run motors given the control speeds above
+  motors.leftDrive(leftSpeed, FORWARD);
+  motors.rightDrive(rightSpeed, FORWARD);
+
+  delay(100);  // add a delay to decrease sensitivity.
+  }
 
 bool DistanciaOK(void){
   int distance = 0;
   distance = distanceSensor.read();
+  //Serial.print("Valor Ultrassonico: ");
+  //Serial.println(distance);
   if(distance <= LimiteSup && distance >= LimiteInf){
-    NewUART.write('p');
+    //Serial.println("PARE!");
     return false;
   }else{
     return true;
@@ -96,36 +129,38 @@ bool InsideMap(void){
   int rightValue = 0; 
   leftValue = left.read();
   rightValue = right.read();
-  if((leftValue > WhiteLine) | (rightValue > WhiteLine)){ //Modificar depois para analisar fita branca. Por enquanto, analisa-se uma fita preta
+  //Serial.print("Valor InfravermelhoD: ");
+  //Serial.println(rightValue);
+  //Serial.print("Valor InfravermelhoL: ");
+  //Serial.println(leftValue);
+  if((leftValue < PontoInteresse) | (rightValue < PontoInteresse)){ //Modificar depois para analisar fita branca. Por enquanto, analisa-se uma fita preta
+    //Serial.println("PARE!");
     NewUART.write('s');
     return false;
   }else{
     return true;
   }
 }
-
 void Turn90dl(){
-  motors.leftDrive(MotorsPower+10, BACKWARD);  // Turn CW at motorPower of 50%
-  motors.rightDrive(MotorsPower+10, FORWARD); // Turn CW at motorPower of 50%
-  delay(270);        // for 250 ms.
-  motors.stop();    // stop() motors
+  int leftValue = left.read();
+  while(leftValue<WhiteLine){
+    motors.rightDrive(MotorsPower-10, FORWARD);   // Turn CW at motorPower of 50%
+  }
+  motors.stop(); 
+  delay(100);
 }
-
 void Turn90dr(){
-  motors.leftDrive(MotorsPower+10, FORWARD);  // Turn CW at motorPower of 50%
-  motors.rightDrive(MotorsPower+10, BACKWARD); // Turn CW at motorPower of 50%
-  delay(270);        // for 250 ms.
-  motors.stop();    // stop() motors
-}
-
+  int rightValue = right.read();
+  while(rightValue<WhiteLine){
+    motors.leftDrive(MotorsPower-10, FORWARD);   
+      }
+    motors.stop();
+    delay(100);
+    }
 void PosIni(){
   Turn90dl();
-  if (!DistanciaOK() | !InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
-    DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
-  }else{
-    motors.rightDrive(SpdRight, FORWARD); //Movimentando o carrinho para frente
-    motors.leftDrive(SpdLeft, FORWARD); //Movimentando o carrinho para frente
-  }
+  motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
   delay(500);
   motors.stop();
+  NewUART.write('s');
 }
