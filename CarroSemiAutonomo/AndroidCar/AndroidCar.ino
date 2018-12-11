@@ -12,7 +12,7 @@ FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infra
 #define WhiteLine 700 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
 #define PontoInteresse 60//Valor referente ao ponto de interesse 
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
-int MotorsPower = 40; //Porcentagem minima de forca necessaria para movimentar os motores
+int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
 void setup() {
   //Serial.begin(115200);  
@@ -36,12 +36,14 @@ void loop(){
     break;
     case 'l': //Movimentacao para o lado esquerdo(LEFT)
       Turn90dl();
+      ReajustePTurn90dl();
        while(DistanciaOK() && NewUART.read() !='s'){
          FollowingLine();
        }
       break;
     case 'r': //Movimentacao para o lado direito(RIGHT)
       Turn90dr();
+      ReajustePTurn90dr();
        while(DistanciaOK() && NewUART.read() !='s'){
          FollowingLine();
        }
@@ -94,14 +96,14 @@ void FollowingLine(void){
 
   // if the line only is under the right sensor, adjust relative speeds to turn to the right
   else if(rightValue > WhiteLine) {
-    leftSpeed = MotorsPower;
-    rightSpeed = MotorsPower - 5;
+    leftSpeed = MotorsPower+10;
+    rightSpeed = MotorsPower-10;
   }
 
   // if the line only is under the left sensor, adjust relative speeds to turn to the left
   else if(leftValue > WhiteLine) {
-    leftSpeed = MotorsPower- 5;
-    rightSpeed = MotorsPower;
+    leftSpeed = MotorsPower-10;
+    rightSpeed = MotorsPower+10 ;
   }
 
   // run motors given the control speeds above
@@ -142,18 +144,38 @@ bool InsideMap(void){
   }
 }
 void Turn90dl(){
-  while(left.read()<WhiteLine){
-    motors.rightDrive(MotorsPower-5, FORWARD);   // Turn CW at motorPower of 50%
-  }
-  motors.stop(); 
-  delay(100);
-}
-void Turn90dr(){
-  while(right.read()<WhiteLine){
-    motors.leftDrive(MotorsPower-5, FORWARD);   
+  if(left.read()>WhiteLine){
+    do{
+      motors.rightDrive(MotorsPower-10, FORWARD);
       }
+    while(left.read()>WhiteLine);
+    while(left.read()<WhiteLine){
+      motors.rightDrive(MotorsPower-10, FORWARD);
+      }
+  }else {
+    while(left.read()<WhiteLine){
+      motors.rightDrive(MotorsPower-10, FORWARD);
+      }
+    }
     motors.stop();
-    delay(100);
+    delay(200);
+    }
+void Turn90dr(){
+  if(right.read()>WhiteLine){
+    do{
+      motors.leftDrive(MotorsPower-5, FORWARD);
+      }
+    while(right.read()>WhiteLine);
+    while(right.read()<WhiteLine){
+      motors.leftDrive(MotorsPower-5, FORWARD);
+      }
+  }else {
+    while(right.read()<WhiteLine){
+      motors.leftDrive(MotorsPower-5, FORWARD);
+      }
+    }
+    motors.stop();
+    delay(200);
     }
 void PosIni(){
   Turn90dl();
@@ -162,3 +184,18 @@ void PosIni(){
   motors.stop();
   NewUART.write('s');
 }
+void ReajustePTurn90dl(){
+  while(left.read()<WhiteLine){
+    motors.leftDrive(MotorsPower-10,FORWARD);
+    }
+  motors.stop();
+  delay(100);
+  }
+  
+void ReajustePTurn90dr(){
+  while(right.read()<WhiteLine){
+    motors.rightDrive(MotorsPower-5,FORWARD);
+    }
+  motors.stop();
+  delay(100);
+  }
