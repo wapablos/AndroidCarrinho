@@ -35,14 +35,14 @@ void loop(){
     break;
     case 'l': //Movimentacao para o lado esquerdo(LEFT) 
       Turn90dl();
-      while(InsideMap() && NewUART.read() != 's'){ //Condicao de parada(STOP)
+      while(InsideMap() && DistanciaOK() && NewUART.read() != 's'){ //Condicao de parada(STOP)
         motors.rightDrive(SpdRight, FORWARD); //Movimentando o carrinho para frente
         motors.leftDrive(SpdLeft, FORWARD); //Movimentando o carrinho para frente
       }
     break;
     case 'r': //Movimentacao para o lado direito(RIGHT)
       Turn90dr();
-      while(InsideMap() && NewUART.read() != 's'){ //Condicao de parada(STOP)
+      while(InsideMap() && DistanciaOK() && NewUART.read() != 's'){ //Condicao de parada(STOP)
         motors.rightDrive(SpdRight, FORWARD); //Movimentando o carrinho para frente
         motors.leftDrive(SpdLeft, FORWARD); //Movimentando o carrinho para frente
       }
@@ -84,6 +84,7 @@ bool DistanciaOK(void){
   int distance = 0;
   distance = distanceSensor.read();
   if(distance <= LimiteSup && distance >= LimiteInf){
+    NewUART.write('p');
     return false;
   }else{
     return true;
