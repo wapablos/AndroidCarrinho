@@ -13,6 +13,7 @@ FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infra
 #define PontoInteresse 100//Valor referente ao ponto de interesse 
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
+bool ObstDetect = false;
 
 void setup() { 
   Serial.begin(115200);
@@ -24,11 +25,13 @@ void loop(){
   switch(buff){
     case 'f': //Movimentacao para frente(FOWARD)
       while(NewUART.read() != 's'){ //Condicao de parada(STOP)
-        if (!DistanciaOK() | !InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
+        if (!InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
-        }else{ 
-          FollowingLine(); //Movimentando o carrinho para frente
+        }else{
+          while(DistanciaOK()){ 
+            FollowingLine(); //Movimentando o carrinho para frente
+          }
         }
       }
     break;
@@ -47,9 +50,10 @@ void loop(){
        }
       break;
     case 'L': //Movimentacao default para a posicao inicial
-      while(NewUART.read() !='s'){
-        PosIni();   
+      while(DistanciaOK() && NewUART.read() !='s'){
+        FollowingLine();   
     }
+    
     break;
     case 't': //Movimentacao para tras(BACKWARD)
       while(NewUART.read() != 's'){ //Condicao de parada(STOP)
@@ -80,8 +84,8 @@ void DontTouchMe(void){
 }
 
 void FollowingLine(void){
-  int leftSpeed;
-  int rightSpeed;
+  int leftSpeed = 0;
+  int rightSpeed = 0;
   Serial.print("LeftSensor: ");
   Serial.println(left.read());
   Serial.print("RightSensor: ");
@@ -117,8 +121,17 @@ bool DistanciaOK(void){
   int distance = 0;
   distance = distanceSensor.read();
   if(distance <= LimiteSup && distance >= LimiteInf){
+    if(!ObstDetect){
+      NewUART.write("p");
+    }
+    ObstDetect = true;
+    while(ObstDetect){
+      DistanciaOK();
+    }
     return false;
   }else{
+    ObstDetect = false;
+    NewUART.write("c");
     return true;
   }
 }
