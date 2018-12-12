@@ -10,12 +10,12 @@ FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infra
 #define LimiteSup 10 //Distancia maxima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define LimiteInf 5 //Distancia minima vista pelo sensor Ultrassonico(condicao de parada), em cm
 #define WhiteLine 700 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
-#define PontoInteresse 60//Valor referente ao ponto de interesse 
+#define PontoInteresse 100//Valor referente ao ponto de interesse 
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
 int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
 
-void setup() {
-  //Serial.begin(115200);  
+void setup() { 
+  Serial.begin(115200);
   NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
 }
 
@@ -28,8 +28,6 @@ void loop(){
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
         }else{ 
-          //Serial.println("PERMITIDO");
-          //Serial.println("");
           FollowingLine(); //Movimentando o carrinho para frente
         }
       }
@@ -79,47 +77,46 @@ void loop(){
 void DontTouchMe(void){
   motors.stop();
   delay(1000);
-  /*motors.drive(MotorsPower, BACKWARD);
-  delay(500);
-  motors.stop();*/
 }
+
 void FollowingLine(void){
   int leftSpeed;
   int rightSpeed;
-  int leftValue = left.read();
-  int rightValue = right.read();
+  Serial.print("LeftSensor: ");
+  Serial.println(left.read());
+  Serial.print("RightSensor: ");
+  Serial.println(right.read());
+  Serial.println();
    // if the both sensors are on the line, drive forward left and right at the same speed
-  if((leftValue > WhiteLine) && (rightValue > WhiteLine)) {
+  if((left.read() > WhiteLine) && (right.read() > WhiteLine)) {
     leftSpeed = MotorsPower;
     rightSpeed = MotorsPower;
   }
 
   // if the line only is under the right sensor, adjust relative speeds to turn to the right
-  else if(rightValue > WhiteLine) {
-    leftSpeed = MotorsPower+10;
-    rightSpeed = MotorsPower-10;
+  else if(right.read() > WhiteLine) {
+    Serial.println("Esquerda saiu");
+    leftSpeed = MotorsPower + 10;
+    rightSpeed = 35;
   }
 
   // if the line only is under the left sensor, adjust relative speeds to turn to the left
-  else if(leftValue > WhiteLine) {
-    leftSpeed = MotorsPower-10;
-    rightSpeed = MotorsPower+10 ;
+  else if(left.read() > WhiteLine) {
+    Serial.println("Direita saiu");
+    leftSpeed = 0;
+    rightSpeed = MotorsPower + 10;
   }
-
   // run motors given the control speeds above
   motors.leftDrive(leftSpeed, FORWARD);
   motors.rightDrive(rightSpeed, FORWARD);
 
-  delay(100);  // add a delay to decrease sensitivity.
-  }
+  delay(10);  // add a delay to decrease sensitivity.
+}
 
 bool DistanciaOK(void){
   int distance = 0;
   distance = distanceSensor.read();
-  //Serial.print("Valor Ultrassonico: ");
-  //Serial.println(distance);
   if(distance <= LimiteSup && distance >= LimiteInf){
-    //Serial.println("PARE!");
     return false;
   }else{
     return true;
@@ -131,52 +128,62 @@ bool InsideMap(void){
   int rightValue = 0; 
   leftValue = left.read();
   rightValue = right.read();
-  //Serial.print("Valor InfravermelhoD: ");
-  //Serial.println(rightValue);
-  //Serial.print("Valor InfravermelhoL: ");
-  //Serial.println(leftValue);
   if((leftValue < PontoInteresse) | (rightValue < PontoInteresse)){ //Modificar depois para analisar fita branca. Por enquanto, analisa-se uma fita preta
-    //Serial.println("PARE!");
-    NewUART.write('s');
+    NewUART.write('s');//Chegou no Ponto
     return false;
   }else{
-    return true;
+    return true;//Não chegou no ponto
   }
 }
 void Turn90dl(){
+  Serial.print("Turn90dL - LEFTSensor: ");
+  Serial.println(left.read());
+  Serial.print("Turn90dL - RIGHTSensor: ");
+  Serial.println(right.read());
+  Serial.println();
   if(left.read()>WhiteLine){
     do{
-      motors.rightDrive(MotorsPower-10, FORWARD);
-      }
-    while(left.read()>WhiteLine);
+      motors.rightDrive(MotorsPower+10, FORWARD);
+    }while(left.read()>WhiteLine);
     while(left.read()<WhiteLine){
-      motors.rightDrive(MotorsPower-10, FORWARD);
-      }
+      motors.rightDrive(MotorsPower+10, FORWARD);
+    }
   }else {
     while(left.read()<WhiteLine){
-      motors.rightDrive(MotorsPower-10, FORWARD);
-      }
+      motors.rightDrive(MotorsPower+10, FORWARD);
     }
-    motors.stop();
-    delay(200);
-    }
+  }
+  motors.stop();
+  delay(200);
+}
+
 void Turn90dr(){
+  Serial.print("Turn90dR - LEFTSensor: ");
+  Serial.println(left.read());
+  Serial.print("Turn90dR - RIGHTSensor: ");
+  Serial.println(right.read());
+  Serial.println();
   if(right.read()>WhiteLine){
     do{
       motors.leftDrive(MotorsPower-5, FORWARD);
-      }
-    while(right.read()>WhiteLine);
+      Serial.print("Passou do Ponto... LeftSensor: ");
+      Serial.println(left.read());
+      Serial.println("Passou do Ponto... RightSensor: ");
+      Serial.println(right.read());
+      Serial.println();
+    }while(right.read()>WhiteLine);
     while(right.read()<WhiteLine){
       motors.leftDrive(MotorsPower-5, FORWARD);
-      }
+    }
   }else {
     while(right.read()<WhiteLine){
       motors.leftDrive(MotorsPower-5, FORWARD);
-      }
     }
-    motors.stop();
-    delay(200);
-    }
+  }
+  motors.stop();
+  delay(200);
+}
+
 void PosIni(){
   Turn90dl();
   motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
@@ -184,18 +191,19 @@ void PosIni(){
   motors.stop();
   NewUART.write('s');
 }
+
 void ReajustePTurn90dl(){
   while(left.read()<WhiteLine){
     motors.leftDrive(MotorsPower-10,FORWARD);
-    }
+  }
   motors.stop();
   delay(100);
-  }
+}
   
 void ReajustePTurn90dr(){
   while(right.read()<WhiteLine){
-    motors.rightDrive(MotorsPower-5,FORWARD);
-    }
+    motors.rightDrive(MotorsPower,FORWARD);
+  }
   motors.stop();
   delay(100);
-  }
+}
