@@ -12,9 +12,12 @@ FalconRobotLineSensor right(A3); //Porta analogica utilizada para o sensor infra
 #define WhiteLine 700 //Valor intermediario entre uma superficie branca ou preta. Acima desse valor temos um plano escuro
 #define PontoInteresse 100//Valor referente ao ponto de interesse 
 char buff = " "; //Buffer utilizado para armazenar o caracter de comando via serial
-int MotorsPower = 50; //Porcentagem minima de forca necessaria para movimentar os motores
+int MotorsPower = 55; //Porcentagem minima de forca necessaria para movimentar os motores
 bool ObstDetect = false;
-
+int li = 0, ri = 1;
+int lj = 0, rj = 0;
+int LastValue[2][2] = { {0,0},
+                        {0,0} };
 void setup() { 
   Serial.begin(115200);
   NewUART.begin(9600); //Inicializando comunicacao serial com o baudrate especificado
@@ -26,11 +29,15 @@ void loop(){
     case 'f': //Movimentacao para frente(FOWARD)
       while(NewUART.read() != 's'){ //Condicao de parada(STOP)
         if (!InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
+          Serial.println("S");
+          NewUART.write('s');//Chegou no Ponto
           DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
           break;
         }else{
-          while(DistanciaOK()){ 
+          if(DistanciaOK()){
             FollowingLine(); //Movimentando o carrinho para frente
+          }else{
+           break; 
           }
         }
       }
@@ -38,22 +45,60 @@ void loop(){
     case 'l': //Movimentacao para o lado esquerdo(LEFT)
       Turn90dl();
       ReajustePTurn90dl();
-       while(DistanciaOK() && NewUART.read() !='s'){
-         FollowingLine();
-       }
+       while(NewUART.read() !='s'){
+         if (!InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
+          Serial.println("S");
+          NewUART.write('s');//Chegou no Ponto
+          DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
+          break;
+        }else{
+          if(DistanciaOK()){
+            FollowingLine(); //Movimentando o carrinho para frente
+          }else{
+           break; 
+          }
+        }
+     }
       break;
     case 'r': //Movimentacao para o lado direito(RIGHT)
       Turn90dr();
       ReajustePTurn90dr();
-       while(DistanciaOK() && NewUART.read() !='s'){
-         FollowingLine();
-       }
+       while(NewUART.read() !='s'){
+         if (!InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK() e analisando se o carrinho esta dentro da faixa permitida mediante a funcao InsideMap()
+          Serial.println("S");
+          NewUART.write('s');//Chegou no Ponto
+          DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
+          break;
+        }else{
+          if(DistanciaOK()){
+            FollowingLine();//Movimentando o carrinho para frente
+          }else{
+            break;
+          }
+        }
+      }
       break;
     case 'L': //Movimentacao default para a posicao inicial
       while(DistanciaOK() && NewUART.read() !='s'){
-        FollowingLine();   
-    }
-    
+        if(InsideMap()){
+          FollowingLine();
+        }else{
+          DontTouchMe();
+          break;   
+        }
+      }
+      Turn90dl();
+      ReajustePTurn90dl();
+    break;
+    case 'F': //Movimentacao para frente(Front)
+      while(NewUART.read() != 's'){
+        if (!DistanciaOK() | !InsideMap()){ //Verificando limites inferior e superior por meio da funcao DistanciaOK()
+          DontTouchMe(); //Freando os motores atraves da funcao DontTouchMe()
+          break;
+        }else{ 
+          motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
+        }
+     }
     break;
     case 't': //Movimentacao para tras(BACKWARD)
       while(NewUART.read() != 's'){ //Condicao de parada(STOP)
@@ -74,7 +119,6 @@ void loop(){
       motors.stop(); //Mantendo o carrinho parado
       delay(250);
     break;
-      
   }
 }
 
@@ -91,6 +135,14 @@ void FollowingLine(void){
   Serial.print("RightSensor: ");
   Serial.println(right.read());
   Serial.println();
+  
+  LastValue[li][lj] = 0;
+  LastValue[li][lj+1] = 0;
+  
+  LastValue[ri][rj] = 0;
+  LastValue[ri][rj+1] = 0;
+  
+  
    // if the both sensors are on the line, drive forward left and right at the same speed
   if((left.read() > WhiteLine) && (right.read() > WhiteLine)) {
     leftSpeed = MotorsPower;
@@ -109,6 +161,10 @@ void FollowingLine(void){
     Serial.println("Direita saiu");
     leftSpeed = 0;
     rightSpeed = MotorsPower + 10;
+  }
+
+  else{
+    
   }
   // run motors given the control speeds above
   motors.leftDrive(leftSpeed, FORWARD);
@@ -130,8 +186,11 @@ bool DistanciaOK(void){
     }
     return false;
   }else{
+    if(ObstDetect){
+      Serial.println("C");
+      NewUART.write("c");
+    }
     ObstDetect = false;
-    NewUART.write("c");
     return true;
   }
 }
@@ -142,12 +201,12 @@ bool InsideMap(void){
   leftValue = left.read();
   rightValue = right.read();
   if((leftValue < PontoInteresse) | (rightValue < PontoInteresse)){ //Modificar depois para analisar fita branca. Por enquanto, analisa-se uma fita preta
-    NewUART.write('s');//Chegou no Ponto
     return false;
   }else{
     return true;//Não chegou no ponto
   }
 }
+
 void Turn90dl(){
   Serial.print("Turn90dL - LEFTSensor: ");
   Serial.println(left.read());
@@ -195,14 +254,6 @@ void Turn90dr(){
   }
   motors.stop();
   delay(200);
-}
-
-void PosIni(){
-  Turn90dl();
-  motors.drive(MotorsPower, FORWARD); //Movimentando o carrinho para frente
-  delay(500);
-  motors.stop();
-  NewUART.write('s');
 }
 
 void ReajustePTurn90dl(){
