@@ -45,10 +45,10 @@ public class JoystickActivity extends IOIOActivity{
     int BAUND = 9600;
 
     //COMMANDS
-    char UP = 'f';
+    char UP = 'F';
     char DOWN = 't';
-    char RIGHT = 'r';   //d
-    char LEFT = 'l';    //e
+    char RIGHT = 'd';   //d
+    char LEFT = 'e';    //e
     char STOP = 's';
 
     @Override

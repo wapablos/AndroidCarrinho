@@ -116,10 +116,12 @@ public class CameraActivity extends IOIOActivity {
         public void loop() throws ConnectionLostException, InterruptedException {
 //            Log.e("TEST", "Entrando no running de ida");
             //Delay inicial
-            Thread.sleep(2000);
+            Thread.sleep(3000);
 
             Running(ida);
-            //Running(volta);
+            Log.e("TEST", "Indo para o caminho de volta");
+            Thread.sleep(5000);
+            Running(volta);
             while(true){
                 Log.e("TEST", "FIM");
                 Thread.sleep(1000);
