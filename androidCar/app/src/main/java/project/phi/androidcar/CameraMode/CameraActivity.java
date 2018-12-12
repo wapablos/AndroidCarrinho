@@ -50,6 +50,7 @@ public class CameraActivity extends IOIOActivity {
 
     // CONTROL
     public char command = 'x';
+
     // VETOR PARA O ALGORTMO ROTEAMENTO
     public static char[] ida;
     public static char[] volta;
@@ -118,7 +119,7 @@ public class CameraActivity extends IOIOActivity {
             Thread.sleep(2000);
 
             Running(ida);
-            Running(volta);
+            //Running(volta);
             while(true){
                 Log.e("TEST", "FIM");
                 Thread.sleep(1000);
@@ -156,7 +157,6 @@ public class CameraActivity extends IOIOActivity {
                 command = 'x';
             }
 
-            // TODO: DEBUG: Enviando o path[i] direto o arduino não reconhece (motivo desconhecido).
             if (path[i] != ' ') {
                 if (path[i] == 'f'){
                     Log.e("TEST", "Enviado: "+ path[i]);
@@ -189,6 +189,28 @@ public class CameraActivity extends IOIOActivity {
                         resp = new String(Temp);
                         Log.e("TEST", "Recebido: "+resp);
                     }
+
+                    // Reenvia o comando caso o Sensor ultrasonico seja acionado.
+                    if (resp.equals("c")){
+                        resp = " "; //Limpa a variavel
+                        if (path[i] == 'f'){
+                            Log.e("TEST", "Enviado: "+ path[i]);
+                            SerialWrite(UP);
+
+                        } else if (path[i] == 'r'){
+                            Log.e("TEST", "Enviado: "+ path[i]);
+                            SerialWrite(RIGHT);
+
+                        } else if (path[i] == 'l'){
+                            Log.e("TEST", "Enviado: "+ path[i]);
+                            SerialWrite(LEFT);
+
+                        } else if (path[i] == 'L'){
+                            Log.e("TEST", "Enviado: "+ path[i]);
+                            SerialWrite(END);
+                        }
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
