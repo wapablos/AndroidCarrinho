@@ -1,7 +1,7 @@
 ag = function (tamanho, geracoes){
   source("iniciarPop.R")
   source("torneio.R")
-  source("roleta_simples.R")
+  source("alt_roleta_simples.R")
   source("mascara_bin.R")
   source ("funcaoDeAvaliacao.R")
   source ("pontoCorte.R")
@@ -12,7 +12,7 @@ ag = function (tamanho, geracoes){
   for (i in 1:geracoes){
     pop = pop[order(pop[,6], decreasing = T),]
     #popPais = torneio (pop, 50, 3)
-    popPais = roleta_simples(pop, 50)
+    popPais = alt_roleta_simples(pop, 50)
     #popFilhos = pontoCorte(popPais)
     popFilhos = mascara_bin(popPais)
     inicio = (nrow(pop) - nrow(popFilhos))+1
