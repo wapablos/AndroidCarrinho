@@ -14,7 +14,7 @@ roleta_simples = function(pop, txCruz){
   # E verifica nas soma cumulativas qual soma de cromossomos e posicao resulta em valor >= randVal
   # e adiciona o individo na pop de Pais
   for(i in 1:tamanho){
-    randVal = sample(:somaFit,1);
+    randVal = sample(0:somaFit,1);
     for(j in 1:nInd){
       if(somaInd[j] > randVal || j >= nInd){
         popPais[i, ] = pop[j,]
