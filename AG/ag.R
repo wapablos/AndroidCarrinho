@@ -5,11 +5,11 @@
 ag = function (tamanho, geracoes){
   source("iniciarPop.R")
   source("torneio.R")
-  source("alt_roleta_simples.R")
+  source("roleta_simples.R")
   source("mascara_bin.R")
-  source ("funcaoDeAvaliacao.R")
-  source ("pontoCorte.R")
-  source ("mutacao.R")
+  source("funcaoDeAvaliacao.R")
+  source("pontoCorte.R")
+  source("mutacao.R")
   
   melhor = 0; media = 0
   pop = iniciarPop(tamanho)

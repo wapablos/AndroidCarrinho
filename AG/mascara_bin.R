@@ -7,7 +7,7 @@ mascara_bin = function (popPais){
   for (i in seq(1, nrow(popFilhos), by=2)) {
     # cria a mascara binaria
     mascara = sample(0:1,5,replace = T)
-    #print(mascara)
+  
     # verifica se e 0 ou 1 para a troca de alelos
     for(j in 1:length(mascara)){
       if( mascara[j] == 1){
