@@ -6,26 +6,27 @@ alt_roleta_simples = function(pop, txCruz){
   popPais = matrix(nrow = tamanho,ncol = ncol(pop))
   
   # gera vetor de areas fac*Rank
-  ord_pop = order(pop[,6])
-  fac = sample(1:100,1) # gera peso aleatorio
+  indSum = sum(seq(1,nrow(pop)))
+  
+  fac= 100/indSum
   vet_areas = c(rep(NA,nrow(pop)))
   
-  for(i in ord_pop){
+  for(i in seq(1,nrow(pop))){
     vet_areas[i] = fac*i
   }
   
   # ordena vetor de area (roleta) por individuo da pop
-  vetAreas = vet_areas[ord_pop]
+  vet_areas = vet_areas[order(vet_areas,decreasing = T)]
   
   nInd = nrow(popPais)
-  somaTot = sum(vetAreas)
-  somaInd = cumsum(vetAreas)
+  somaTot = sum(vet_areas)
+  somaInd = cumsum(vet_areas)
   
   # Gera um valor aleatorio que varia de 0 ate valor da soma da area
   # E verifica nas soma cumulativas qual soma de cromossomos e posicao resulta em valor >= randVal
   # e adiciona o individo na pop de Pais
   for(i in 1:tamanho){
-    randVal = sample(0:somaTot,1);
+    randVal = runif(1,1,somaTot);
     for(j in 1:nInd){
       if(somaInd[j] > randVal || j >= nInd){
         popPais[i, ] = pop[j,]
@@ -33,5 +34,6 @@ alt_roleta_simples = function(pop, txCruz){
       }
     }
   }
+  
   return(popPais)
 }
