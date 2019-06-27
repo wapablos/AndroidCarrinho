@@ -2,7 +2,7 @@
 #         Gustavo Moraes Vasconcelos (201606840014)
 #         Pablo Wesley de Aguiar e Silva (201606840051)
 
-alt_roleta_simples = function(pop, txCruz){
+roleta_simples = function(pop, txCruz){
   
   # Gera populacao de pais pela taxa de cruzamento
   tamanho  = round(nrow(pop)*(txCruz/100))
