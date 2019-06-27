@@ -1,3 +1,7 @@
+# Equipe: Camila Novaes Silva (201606840055)
+#         Gustavo Moraes Vasconcelos (201606840014)
+#         Pablo Wesley de Aguiar e Silva (201606840051)
+
 ag = function (tamanho, geracoes){
   source("iniciarPop.R")
   source("torneio.R")
@@ -24,6 +28,5 @@ ag = function (tamanho, geracoes){
   plot(melhor, col = "red", ylim = c(min(media), max(melhor)), type="l", ylab = "")
   par(new=T)
   plot(media, col = "blue", ylim = c(min(media), max(melhor)), type="l", ylab = "fitness")
-  #print(popPais)
   return(pop)
 }

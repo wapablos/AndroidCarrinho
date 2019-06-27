@@ -1,7 +1,11 @@
+# Equipe: Camila Novaes Silva (201606840055)
+#         Gustavo Moraes Vasconcelos (201606840014)
+#         Pablo Wesley de Aguiar e Silva (201606840051)
+
 mascara_bin = function (popPais){
   popFilhos = matrix(nrow = nrow(popPais),ncol = ncol(popPais))
   for (i in seq(1, nrow(popFilhos), by=2)) {
-    #cria a mascara binaria
+    # cria a mascara binaria
     mascara = sample(0:1,5,replace = T)
     #print(mascara)
     # verifica se e 0 ou 1 para a troca de alelos
